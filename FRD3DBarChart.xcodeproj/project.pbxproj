@@ -13,6 +13,17 @@
 		BEEFA81815CA070A00B839E9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEFA81615CA070A00B839E9 /* InfoPlist.strings */; };
 		BEEFA81A15CA070A00B839E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA81915CA070A00B839E9 /* main.m */; };
 		BEEFA81E15CA070A00B839E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA81D15CA070A00B839E9 /* AppDelegate.m */; };
+		BEEFA83715CA07B700B839E9 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEFA82915CA07B700B839E9 /* MainStoryboard_iPhone.storyboard */; };
+		BEEFA83815CA07B700B839E9 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEFA82A15CA07B700B839E9 /* MainStoryboard_iPad.storyboard */; };
+		BEEFA83915CA07B700B839E9 /* FRD3DBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA82C15CA07B700B839E9 /* FRD3DBarChartViewController.m */; };
+		BEEFA83A15CA07B700B839E9 /* FirstViewControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA82E15CA07B700B839E9 /* FirstViewControllerViewController.m */; };
+		BEEFA83B15CA07B700B839E9 /* Example1.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA83015CA07B700B839E9 /* Example1.m */; };
+		BEEFA83C15CA07B700B839E9 /* Example2.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA83215CA07B700B839E9 /* Example2.m */; };
+		BEEFA83D15CA07B700B839E9 /* Example3.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA83415CA07B700B839E9 /* Example3.m */; };
+		BEEFA83E15CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA83615CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m */; };
+		BEEFA84115CA07F500B839E9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA84015CA07F500B839E9 /* QuartzCore.framework */; };
+		BEEFA84315CA080B00B839E9 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA84215CA080B00B839E9 /* GLKit.framework */; };
+		BEEFA84515CA081100B839E9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA84415CA081100B839E9 /* OpenGLES.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,12 +31,30 @@
 		BEEFA80D15CA070A00B839E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEEFA80F15CA070A00B839E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BEEFA81115CA070A00B839E9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		BEEFA81515CA070A00B839E9 /* FRD3DBarChart-Info.plist */ = {isa = PBXFileReference; path = "FRD3DBarChart-Info.plist"; sourceTree = "<group>"; };
+		BEEFA81515CA070A00B839E9 /* FRD3DBarChart-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FRD3DBarChart-Info.plist"; sourceTree = "<group>"; };
 		BEEFA81715CA070A00B839E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEEFA81915CA070A00B839E9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		BEEFA81B15CA070A00B839E9 /* FRD3DBarChart-Prefix.pch */ = {isa = PBXFileReference; path = "FRD3DBarChart-Prefix.pch"; sourceTree = "<group>"; };
-		BEEFA81C15CA070A00B839E9 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		BEEFA81B15CA070A00B839E9 /* FRD3DBarChart-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FRD3DBarChart-Prefix.pch"; sourceTree = "<group>"; };
+		BEEFA81C15CA070A00B839E9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		BEEFA81D15CA070A00B839E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BEEFA82815CA07B700B839E9 /* Shapes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shapes.h; sourceTree = "<group>"; };
+		BEEFA82915CA07B700B839E9 /* MainStoryboard_iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
+		BEEFA82A15CA07B700B839E9 /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
+		BEEFA82B15CA07B700B839E9 /* FRD3DBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRD3DBarChartViewController.h; sourceTree = "<group>"; };
+		BEEFA82C15CA07B700B839E9 /* FRD3DBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRD3DBarChartViewController.m; sourceTree = "<group>"; };
+		BEEFA82D15CA07B700B839E9 /* FirstViewControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewControllerViewController.h; sourceTree = "<group>"; };
+		BEEFA82E15CA07B700B839E9 /* FirstViewControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewControllerViewController.m; sourceTree = "<group>"; };
+		BEEFA82F15CA07B700B839E9 /* Example1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example1.h; sourceTree = "<group>"; };
+		BEEFA83015CA07B700B839E9 /* Example1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example1.m; sourceTree = "<group>"; };
+		BEEFA83115CA07B700B839E9 /* Example2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example2.h; sourceTree = "<group>"; };
+		BEEFA83215CA07B700B839E9 /* Example2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example2.m; sourceTree = "<group>"; };
+		BEEFA83315CA07B700B839E9 /* Example3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example3.h; sourceTree = "<group>"; };
+		BEEFA83415CA07B700B839E9 /* Example3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example3.m; sourceTree = "<group>"; };
+		BEEFA83515CA07B700B839E9 /* FRD3DBarChartViewController+Easing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FRD3DBarChartViewController+Easing.h"; sourceTree = "<group>"; };
+		BEEFA83615CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FRD3DBarChartViewController+Easing.m"; sourceTree = "<group>"; };
+		BEEFA84015CA07F500B839E9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BEEFA84215CA080B00B839E9 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		BEEFA84415CA081100B839E9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,8 +62,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEEFA80E15CA070A00B839E9 /* UIKit.framework in Frameworks */,
+				BEEFA84515CA081100B839E9 /* OpenGLES.framework in Frameworks */,
+				BEEFA84315CA080B00B839E9 /* GLKit.framework in Frameworks */,
 				BEEFA81015CA070A00B839E9 /* Foundation.framework in Frameworks */,
+				BEEFA80E15CA070A00B839E9 /* UIKit.framework in Frameworks */,
+				BEEFA84115CA07F500B839E9 /* QuartzCore.framework in Frameworks */,
 				BEEFA81215CA070A00B839E9 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,6 +77,9 @@
 		BEEFA7FE15CA070A00B839E9 = {
 			isa = PBXGroup;
 			children = (
+				BEEFA84415CA081100B839E9 /* OpenGLES.framework */,
+				BEEFA84215CA080B00B839E9 /* GLKit.framework */,
+				BEEFA84015CA07F500B839E9 /* QuartzCore.framework */,
 				BEEFA81315CA070A00B839E9 /* FRD3DBarChart */,
 				BEEFA80C15CA070A00B839E9 /* Frameworks */,
 				BEEFA80A15CA070A00B839E9 /* Products */,
@@ -72,6 +107,21 @@
 		BEEFA81315CA070A00B839E9 /* FRD3DBarChart */ = {
 			isa = PBXGroup;
 			children = (
+				BEEFA82815CA07B700B839E9 /* Shapes.h */,
+				BEEFA82915CA07B700B839E9 /* MainStoryboard_iPhone.storyboard */,
+				BEEFA82A15CA07B700B839E9 /* MainStoryboard_iPad.storyboard */,
+				BEEFA82B15CA07B700B839E9 /* FRD3DBarChartViewController.h */,
+				BEEFA82C15CA07B700B839E9 /* FRD3DBarChartViewController.m */,
+				BEEFA82D15CA07B700B839E9 /* FirstViewControllerViewController.h */,
+				BEEFA82E15CA07B700B839E9 /* FirstViewControllerViewController.m */,
+				BEEFA82F15CA07B700B839E9 /* Example1.h */,
+				BEEFA83015CA07B700B839E9 /* Example1.m */,
+				BEEFA83115CA07B700B839E9 /* Example2.h */,
+				BEEFA83215CA07B700B839E9 /* Example2.m */,
+				BEEFA83315CA07B700B839E9 /* Example3.h */,
+				BEEFA83415CA07B700B839E9 /* Example3.m */,
+				BEEFA83515CA07B700B839E9 /* FRD3DBarChartViewController+Easing.h */,
+				BEEFA83615CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m */,
 				BEEFA81C15CA070A00B839E9 /* AppDelegate.h */,
 				BEEFA81D15CA070A00B839E9 /* AppDelegate.m */,
 				BEEFA81415CA070A00B839E9 /* Supporting Files */,
@@ -141,6 +191,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEEFA81815CA070A00B839E9 /* InfoPlist.strings in Resources */,
+				BEEFA83715CA07B700B839E9 /* MainStoryboard_iPhone.storyboard in Resources */,
+				BEEFA83815CA07B700B839E9 /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +205,12 @@
 			files = (
 				BEEFA81A15CA070A00B839E9 /* main.m in Sources */,
 				BEEFA81E15CA070A00B839E9 /* AppDelegate.m in Sources */,
+				BEEFA83915CA07B700B839E9 /* FRD3DBarChartViewController.m in Sources */,
+				BEEFA83A15CA07B700B839E9 /* FirstViewControllerViewController.m in Sources */,
+				BEEFA83B15CA07B700B839E9 /* Example1.m in Sources */,
+				BEEFA83C15CA07B700B839E9 /* Example2.m in Sources */,
+				BEEFA83D15CA07B700B839E9 /* Example3.m in Sources */,
+				BEEFA83E15CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +316,7 @@
 				BEEFA82315CA070A00B839E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
