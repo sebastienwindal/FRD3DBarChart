@@ -1,0 +1,265 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BEEFA80E15CA070A00B839E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA80D15CA070A00B839E9 /* UIKit.framework */; };
+		BEEFA81015CA070A00B839E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA80F15CA070A00B839E9 /* Foundation.framework */; };
+		BEEFA81215CA070A00B839E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA81115CA070A00B839E9 /* CoreGraphics.framework */; };
+		BEEFA81815CA070A00B839E9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEEFA81615CA070A00B839E9 /* InfoPlist.strings */; };
+		BEEFA81A15CA070A00B839E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA81915CA070A00B839E9 /* main.m */; };
+		BEEFA81E15CA070A00B839E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA81D15CA070A00B839E9 /* AppDelegate.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BEEFA80915CA070A00B839E9 /* FRD3DBarChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRD3DBarChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEEFA80D15CA070A00B839E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		BEEFA80F15CA070A00B839E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BEEFA81115CA070A00B839E9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		BEEFA81515CA070A00B839E9 /* FRD3DBarChart-Info.plist */ = {isa = PBXFileReference; path = "FRD3DBarChart-Info.plist"; sourceTree = "<group>"; };
+		BEEFA81715CA070A00B839E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BEEFA81915CA070A00B839E9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BEEFA81B15CA070A00B839E9 /* FRD3DBarChart-Prefix.pch */ = {isa = PBXFileReference; path = "FRD3DBarChart-Prefix.pch"; sourceTree = "<group>"; };
+		BEEFA81C15CA070A00B839E9 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		BEEFA81D15CA070A00B839E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BEEFA80615CA070A00B839E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEEFA80E15CA070A00B839E9 /* UIKit.framework in Frameworks */,
+				BEEFA81015CA070A00B839E9 /* Foundation.framework in Frameworks */,
+				BEEFA81215CA070A00B839E9 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BEEFA7FE15CA070A00B839E9 = {
+			isa = PBXGroup;
+			children = (
+				BEEFA81315CA070A00B839E9 /* FRD3DBarChart */,
+				BEEFA80C15CA070A00B839E9 /* Frameworks */,
+				BEEFA80A15CA070A00B839E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BEEFA80A15CA070A00B839E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BEEFA80915CA070A00B839E9 /* FRD3DBarChart.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BEEFA80C15CA070A00B839E9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BEEFA80D15CA070A00B839E9 /* UIKit.framework */,
+				BEEFA80F15CA070A00B839E9 /* Foundation.framework */,
+				BEEFA81115CA070A00B839E9 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BEEFA81315CA070A00B839E9 /* FRD3DBarChart */ = {
+			isa = PBXGroup;
+			children = (
+				BEEFA81C15CA070A00B839E9 /* AppDelegate.h */,
+				BEEFA81D15CA070A00B839E9 /* AppDelegate.m */,
+				BEEFA81415CA070A00B839E9 /* Supporting Files */,
+			);
+			path = FRD3DBarChart;
+			sourceTree = "<group>";
+		};
+		BEEFA81415CA070A00B839E9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BEEFA81515CA070A00B839E9 /* FRD3DBarChart-Info.plist */,
+				BEEFA81615CA070A00B839E9 /* InfoPlist.strings */,
+				BEEFA81915CA070A00B839E9 /* main.m */,
+				BEEFA81B15CA070A00B839E9 /* FRD3DBarChart-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BEEFA80815CA070A00B839E9 /* FRD3DBarChart */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEEFA82115CA070A00B839E9 /* Build configuration list for PBXNativeTarget "FRD3DBarChart" */;
+			buildPhases = (
+				BEEFA80515CA070A00B839E9 /* Sources */,
+				BEEFA80615CA070A00B839E9 /* Frameworks */,
+				BEEFA80715CA070A00B839E9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FRD3DBarChart;
+			productName = FRD3DBarChart;
+			productReference = BEEFA80915CA070A00B839E9 /* FRD3DBarChart.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BEEFA80015CA070A00B839E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = BEEFA80315CA070A00B839E9 /* Build configuration list for PBXProject "FRD3DBarChart" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BEEFA7FE15CA070A00B839E9;
+			productRefGroup = BEEFA80A15CA070A00B839E9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BEEFA80815CA070A00B839E9 /* FRD3DBarChart */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BEEFA80715CA070A00B839E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEEFA81815CA070A00B839E9 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BEEFA80515CA070A00B839E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEEFA81A15CA070A00B839E9 /* main.m in Sources */,
+				BEEFA81E15CA070A00B839E9 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BEEFA81615CA070A00B839E9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BEEFA81715CA070A00B839E9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BEEFA81F15CA070A00B839E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BEEFA82015CA070A00B839E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BEEFA82215CA070A00B839E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FRD3DBarChart/FRD3DBarChart-Prefix.pch";
+				INFOPLIST_FILE = "FRD3DBarChart/FRD3DBarChart-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		BEEFA82315CA070A00B839E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FRD3DBarChart/FRD3DBarChart-Prefix.pch";
+				INFOPLIST_FILE = "FRD3DBarChart/FRD3DBarChart-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BEEFA80315CA070A00B839E9 /* Build configuration list for PBXProject "FRD3DBarChart" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEEFA81F15CA070A00B839E9 /* Debug */,
+				BEEFA82015CA070A00B839E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEEFA82115CA070A00B839E9 /* Build configuration list for PBXNativeTarget "FRD3DBarChart" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEEFA82215CA070A00B839E9 /* Debug */,
+				BEEFA82315CA070A00B839E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BEEFA80015CA070A00B839E9 /* Project object */;
+}
