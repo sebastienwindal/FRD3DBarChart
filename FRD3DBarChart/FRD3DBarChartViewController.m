@@ -271,7 +271,8 @@
                                                   height:100.0
                                               rightAlign:YES];
                     NSError *error = nil;
-                    GLKTextureInfo *texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:nil error:&error];
+                    NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:YES], GLKTextureLoaderApplyPremultiplication, nil];
+                    GLKTextureInfo *texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:options error:&error];
                     if (error == nil)
                     {
                         [_valueLegendTextures setObject:texture forKey:[NSNumber numberWithInt:i]];
@@ -306,7 +307,8 @@
                                                   height:100.0
                                               rightAlign:YES];
                     NSError *error = nil;
-                    GLKTextureInfo *texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:nil error:&error];
+                    NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:YES], GLKTextureLoaderApplyPremultiplication, nil];
+                    GLKTextureInfo *texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:options error:&error];
                     if (error == nil)
                     {
                         [_rowLegendTextures setObject:texture forKey:[NSNumber numberWithInt:i]];
@@ -345,7 +347,8 @@
                                                   height:100.0 
                                               rightAlign:NO];
                     NSError *error = nil;
-                    GLKTextureInfo *texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:nil error:&error];
+                    NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:YES], GLKTextureLoaderApplyPremultiplication, nil];
+                    GLKTextureInfo *texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:options error:&error];
                     if (error == nil)
                     {
                         [_columnLegendTextures setObject:texture forKey:[NSNumber numberWithInt:i]];
@@ -360,7 +363,12 @@
 }
 
 
--(UIImage *) imageWithText:(NSString *)text fontName:(NSString *)fontName color:(UIColor *)color width:(float)width height:(float)height rightAlign:(BOOL) rightAlign
+-(UIImage *) imageWithText:(NSString *)text 
+                  fontName:(NSString *)fontName 
+                     color:(UIColor *)color
+                     width:(float)width 
+                    height:(float)height 
+                rightAlign:(BOOL) rightAlign
 {
     CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
 
@@ -371,7 +379,7 @@
                                                                8, 
                                                                width*4, 
                                                                rgbColorSpace, 
-                                                               kCGImageAlphaPremultipliedFirst);
+                                                               kCGBitmapByteOrderDefault|kCGImageAlphaPremultipliedFirst);
     
     // draw your things into _composedImageContext
     char* txt	= (char *)[text cStringUsingEncoding:NSASCIIStringEncoding];
@@ -383,13 +391,15 @@
     //rotate text
     //CGContextSetTextMatrix(_composedImageContext, CGAffineTransformMakeRotation(0.0));
 	
-        
     CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:fontName size:60.0] constrainedToSize:CGSizeMake(width, height)];
     
     if (rightAlign)
     {       
         float offsetX = width - expectedLabelSize.width;
-        if (offsetX < 0 || offsetX >= width) offsetX = 0.0; // string is bigger than our allocated space.
+        if (offsetX < 0 || offsetX >= width) 
+        {
+            offsetX = 0.0; // string is bigger than our allocated space.
+        }
         CGContextShowTextAtPoint(_composedImageContext, offsetX , expectedLabelSize.height / 2.0 , txt, strlen(txt));
     }
     else 
@@ -401,12 +411,12 @@
     CGImageRef cgImage = CGBitmapContextCreateImage(_composedImageContext);
     
     CGContextRelease(_composedImageContext);
-    CGColorSpaceRelease(rgbColorSpace);
     
     UIImage *image = [UIImage imageWithCGImage:cgImage];
     CGImageRelease(cgImage);
+    CGColorSpaceRelease(rgbColorSpace);
+    
     return image;
-     
 }
 
 
@@ -543,7 +553,7 @@
     {
         return [self.frd3dBarChartDelegate frd3DBarChartViewControllerRowLegendColor:self];
     }
-    return [UIColor whiteColor];
+    return [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
 }
 
 -(UIColor *) colorForColumnLabels
@@ -552,7 +562,7 @@
     {
         return [self.frd3dBarChartDelegate frd3DBarChartViewControllerColumnLegendColor:self];
     }
-    return [UIColor whiteColor];
+    return [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
 }
 
 -(UIColor *) colorForValueLabels
@@ -561,7 +571,7 @@
     {
         return [self.frd3dBarChartDelegate frd3DBarChartViewControllerValueLegendColor:self];
     }
-    return [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1.0];
+    return [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.8];
 }
 
 -(int) numberColumns
@@ -793,6 +803,7 @@
     [self setupVBOs];
     
     glEnable(GL_DEPTH_TEST);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
     
     self.effect = [[GLKBaseEffect alloc] init];
     self.effect.light0.enabled = GL_TRUE;
@@ -965,8 +976,10 @@
     // draw the legend.
     glEnable(GL_BLEND);
     glBlendFunc( GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
- 
-    // our image is 300x100 so its lenght is 3 * cubewidth
+
+    glDepthMask(GL_FALSE); // required to make the texture bgnd transparent...
+
+    // our image is 300x100 so once scaled, its length will end up being 3 * cubewidth
     float x = [self startX] - (300.0/100.0) * [self cubeWidth] - [self cubeWidth]/2.0;
     float y = [self startY] ;
     
@@ -1096,10 +1109,7 @@
         x += [self cubeWidth];
     }
     
-    
-    
-    
-    
+    glDepthMask(GL_TRUE);
     glDisable(GL_BLEND);
 }
 
@@ -1258,24 +1268,11 @@
     
 }
 
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
- 
-    float radius = 4.0;
-    float startAngle = -3.1 * M_PI/4.0;
-    
-    self.effect.light0.position = GLKVector4Make(radius * cos(_offsetX - startAngle), 4.0 * (1.0+_offsetY), radius * sinf(_offsetX - startAngle), 0.0);
-    
-    [self drawLegend];
-    
-    [self drawGrid];
-    
-    [self drawValueLines];
-    
-    // draw the cubes
 
+-(void) drawBars
+{
+    // draw the cubes
+    
     glBindVertexArrayOES(_vertexArray);
     
     float x = [self startX];
@@ -1287,7 +1284,7 @@
             if ([self hasBarForRow:i column:j])
             {
                 float percentSize = [self cubePercentSizeForBarAtRow:i column:j];
-
+                
                 GLKVector3 rotation = GLKVector3Make(0.0, 0.0, 0.0);
                 GLKVector3 position = GLKVector3Make(x + ([self cubeWidth] * (1-percentSize))/2.0, // make sure our bar is centered in the grid cell
                                                      -0.0, 
@@ -1296,7 +1293,7 @@
                 GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
                 GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
                 GLKMatrix4 zRotationMatrix = GLKMatrix4MakeZRotation(rotation.z);
-                            
+                
                 float height = _currentBarHeights[i*[self numberColumns] + j];
                 if (fabs(height) < 0.0001) height = 0.0001; // an actual 0 height is ugly, rendering constantly hesitates between black triangle and colored triangle
                 GLKMatrix4 scaleMatrix     = GLKMatrix4MakeScale([self cubeWidth] * percentSize, 
@@ -1319,7 +1316,7 @@
                 g =  _currentColors[4*k+1];
                 b =  _currentColors[4*k+2];
                 a =  _currentColors[4*k+3];
-
+                
                 self.effect.light0.diffuseColor = GLKVector4Make(r,g,b,a);
                 self.effect.material.diffuseColor = GLKVector4Make(0.9 * r, 0.9 * g, 0.9 * b, 0.9 * a);
                 [self.effect prepareToDraw];
@@ -1333,6 +1330,31 @@
         x = [self startX];
     }
     glBindVertexArrayOES(0);
+}
+
+
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
+{
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+ 
+    float radius = 4.0; // we are moving around the chart at 4 units from the center.
+    float startAngle = -3.1 * M_PI/4.0;
+    
+    self.effect.light0.position = GLKVector4Make(radius * cos(_offsetX - startAngle), 4.0 * (1.0+_offsetY), radius * sinf(_offsetX - startAngle), 0.0);
+    
+    [self drawGrid];
+    
+    [self drawValueLines];
+
+    [self drawBars];
+    
+    // drawLegend must drawn last because I am disabling the glDepthMask in it and that messes things up, 
+    // even though I am reenabling it at the end of drawLegend. I'd like to understand why. Some day.
+    // see http://stackoverflow.com/questions/9353210/rendering-glitch-with-gl-depth-test-and-transparent-textures 
+    // answer from SigTerm.
+    [self drawLegend];
+
 }
 
 
