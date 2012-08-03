@@ -39,6 +39,8 @@
 #import "Example1.h"
 #import "Example2.h"
 #import "Example3.h"
+#import "Example4.h"
+
 
 @interface FirstViewControllerViewController ()
 
@@ -46,6 +48,7 @@
 @property (nonatomic, strong) Example1 *example1;
 @property (nonatomic, strong) Example2 *example2;
 @property (nonatomic, strong) Example3 *example3;
+@property (nonatomic, strong) Example4 *example4;
 @property (nonatomic, strong) FRD3DBarChartViewController *frd3DBarCharVC;
 @end
 
@@ -55,6 +58,7 @@
 @synthesize example1 = _example1;
 @synthesize example2 = _example2;
 @synthesize example3 = _example3;
+@synthesize example4 = _example4;
 
 @synthesize frd3DBarCharVC = _frd3DBarCharVC;
 
@@ -74,6 +78,7 @@
     self.example1 = [[Example1 alloc] init];
     self.example2 = [[Example2 alloc] init];
     self.example3 = [[Example3 alloc] init];
+    self.example4 = [[Example4 alloc] init];
     
     UIStoryboard *storyboard = self.storyboard;
     self.frd3DBarCharVC = [storyboard instantiateViewControllerWithIdentifier:@"FRD3DBarChart"];
@@ -159,7 +164,7 @@
     
     kUpdateChartOptions options = (self.frd3DBarCharVC.frd3dBarChartDelegate == self.example3) ? kUpdateChartOptionsDoNotUpdateLegends : 0;
     [self.example3 regenerateValues];
-    self.frd3DBarCharVC.frd3dBarChartDelegate = self.example3;
+    self.frd3DBarCharVC.frd3dBarChartDelegate = self.example4;
     
     [self.frd3DBarCharVC updateChartAnimated:YES animationDuration:1.0 options:options];
 }

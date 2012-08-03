@@ -46,7 +46,7 @@
 
 #pragma mark FRD3DBarChartViewControllerDelegate implementation
 
-#define SIZE 40
+#define SIZE 26
 #define HALF_SIZE (SIZE / 2)
 
 -(int) frd3DBarChartViewControllerNumberRows:(FRD3DBarChartViewController *)frd3DBarChardViewController

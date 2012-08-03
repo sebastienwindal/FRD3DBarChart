@@ -24,6 +24,7 @@
 		BEEFA84115CA07F500B839E9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA84015CA07F500B839E9 /* QuartzCore.framework */; };
 		BEEFA84315CA080B00B839E9 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA84215CA080B00B839E9 /* GLKit.framework */; };
 		BEEFA84515CA081100B839E9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA84415CA081100B839E9 /* OpenGLES.framework */; };
+		BEEFA84815CB80BD00B839E9 /* Example4.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA84715CB80BD00B839E9 /* Example4.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,8 @@
 		BEEFA84015CA07F500B839E9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BEEFA84215CA080B00B839E9 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		BEEFA84415CA081100B839E9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		BEEFA84615CB80BC00B839E9 /* Example4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example4.h; sourceTree = "<group>"; };
+		BEEFA84715CB80BD00B839E9 /* Example4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example4.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +123,8 @@
 				BEEFA83215CA07B700B839E9 /* Example2.m */,
 				BEEFA83315CA07B700B839E9 /* Example3.h */,
 				BEEFA83415CA07B700B839E9 /* Example3.m */,
+				BEEFA84615CB80BC00B839E9 /* Example4.h */,
+				BEEFA84715CB80BD00B839E9 /* Example4.m */,
 				BEEFA83515CA07B700B839E9 /* FRD3DBarChartViewController+Easing.h */,
 				BEEFA83615CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m */,
 				BEEFA81C15CA070A00B839E9 /* AppDelegate.h */,
@@ -211,6 +216,7 @@
 				BEEFA83C15CA07B700B839E9 /* Example2.m in Sources */,
 				BEEFA83D15CA07B700B839E9 /* Example3.m in Sources */,
 				BEEFA83E15CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m in Sources */,
+				BEEFA84815CB80BD00B839E9 /* Example4.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

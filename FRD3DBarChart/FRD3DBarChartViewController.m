@@ -851,12 +851,11 @@
     
     self.effect.transform.modelviewMatrix = GLKMatrix4Multiply(self.viewMatrix, modelMatrix);
 
-    NSTimeInterval timeRemainingToPositionAnimationCompletion = [_positionAnimationCompletionDate timeIntervalSinceNow];
-    
-    
     // the repositioning animation (double tap)
     if (_isAnimatingPosition)
     {
+        NSTimeInterval timeRemainingToPositionAnimationCompletion = [_positionAnimationCompletionDate timeIntervalSinceNow];
+        
         NSTimeInterval currentTime = [[NSDate date] timeIntervalSinceDate:_positionAnimationStartDate];
         NSTimeInterval animationDuration = [_positionAnimationCompletionDate timeIntervalSinceDate:_positionAnimationStartDate];
         
@@ -878,11 +877,11 @@
         }
         _isAnimatingPosition = !animationCompleted;
     }
-
-    NSTimeInterval timeRemainingToHeightAnimationCompletion = [_barHeightAnimationCompletionDate timeIntervalSinceNow];
     
     if (_isAnimatingBarHeights)
     {
+        NSTimeInterval timeRemainingToHeightAnimationCompletion = [_barHeightAnimationCompletionDate timeIntervalSinceNow];
+        
         BOOL animationCompleted = YES;
 
         NSTimeInterval currentTime = [[NSDate date] timeIntervalSinceDate:_barHeightsAnimationStartDate];
@@ -973,15 +972,32 @@
 
 -(void) drawLegend
 {
+    
+    float minimumLabelHeight = 0.1;
+    float maximumLabelHeight = 0.3;
+    
     // draw the legend.
     glEnable(GL_BLEND);
     glBlendFunc( GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 
     glDepthMask(GL_FALSE); // required to make the texture bgnd transparent...
 
-    // our image is 300x100 so once scaled, its length will end up being 3 * cubewidth
-    float x = [self startX] - (300.0/100.0) * [self cubeWidth] - [self cubeWidth]/2.0;
-    float y = [self startY] ;
+    // ideal label size is cubeWidth. however if there are a lot of rows, that turns our unreadable and
+    // if there are very vew rows and columns it is freaky big. Adjust the size using minimumLabelHeight
+    // and maximumLabelHeight.
+    
+    float labelHeight = [self cubeWidth];
+    if (labelHeight > maximumLabelHeight) labelHeight = maximumLabelHeight;
+    if (labelHeight < minimumLabelHeight) labelHeight = minimumLabelHeight;
+    float labelHeightDifferenceWithCubeWidth = [self cubeWidth] - labelHeight;
+    
+    // our image is 300x100 so once scaled (by a labelHeight factor), its length will end up being 3 * labelHeight
+    float x = [self startX];
+    x -= (300.0/100.0) * labelHeight;
+    // add a little bit of a margin:
+    x +=  -labelHeight/1.5;
+    
+    float y = [self startY] + labelHeightDifferenceWithCubeWidth/2.0f;
     
     for (int i=0; i<([self numberRows]); i++)
     {
@@ -996,7 +1012,7 @@
             GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
             GLKMatrix4 zRotationMatrix = GLKMatrix4MakeZRotation(rotation.z);
             
-            GLKMatrix4 scaleMatrix     = GLKMatrix4MakeScale([self cubeWidth],1.0,[self cubeWidth]);
+            GLKMatrix4 scaleMatrix     = GLKMatrix4MakeScale(labelHeight,1.0,labelHeight);
             GLKMatrix4 translateMatrix = GLKMatrix4MakeTranslation(position.x, position.y, position.z);
             
             
@@ -1069,8 +1085,8 @@
         }
     }
     
-    x = [self startX] + [self cubeWidth] ;
-    y = [self startY] + [self cubeWidth] * ([self numberRows] + 1) - [self cubeWidth]/2.0;
+    x = [self startX] + [self cubeWidth] - labelHeightDifferenceWithCubeWidth / 2.0;
+    y = [self startY] + [self cubeWidth] * ([self numberRows] + 1) - [self cubeWidth] + labelHeight / 1.5;
 
     
     for (int i=0; i<([self numberColumns]); i++)
@@ -1085,7 +1101,7 @@
             GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
             GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
             GLKMatrix4 zRotationMatrix = GLKMatrix4MakeZRotation(rotation.z);
-            GLKMatrix4 scaleMatrix     = GLKMatrix4MakeScale([self cubeWidth], 1.0, [self cubeWidth]);
+            GLKMatrix4 scaleMatrix     = GLKMatrix4MakeScale(labelHeight, 1.0, labelHeight);
             GLKMatrix4 translateMatrix = GLKMatrix4MakeTranslation(position.x, position.y, position.z);
             
             
