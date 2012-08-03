@@ -16,7 +16,7 @@
 		BEEFA83715CA07B700B839E9 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEFA82915CA07B700B839E9 /* MainStoryboard_iPhone.storyboard */; };
 		BEEFA83815CA07B700B839E9 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BEEFA82A15CA07B700B839E9 /* MainStoryboard_iPad.storyboard */; };
 		BEEFA83915CA07B700B839E9 /* FRD3DBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA82C15CA07B700B839E9 /* FRD3DBarChartViewController.m */; };
-		BEEFA83A15CA07B700B839E9 /* FirstViewControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA82E15CA07B700B839E9 /* FirstViewControllerViewController.m */; };
+		BEEFA83A15CA07B700B839E9 /* GraphCalcViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA82E15CA07B700B839E9 /* GraphCalcViewController.m */; };
 		BEEFA83B15CA07B700B839E9 /* Example1.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA83015CA07B700B839E9 /* Example1.m */; };
 		BEEFA83C15CA07B700B839E9 /* Example2.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA83215CA07B700B839E9 /* Example2.m */; };
 		BEEFA83D15CA07B700B839E9 /* Example3.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA83415CA07B700B839E9 /* Example3.m */; };
@@ -25,6 +25,8 @@
 		BEEFA84315CA080B00B839E9 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA84215CA080B00B839E9 /* GLKit.framework */; };
 		BEEFA84515CA081100B839E9 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA84415CA081100B839E9 /* OpenGLES.framework */; };
 		BEEFA84815CB80BD00B839E9 /* Example4.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA84715CB80BD00B839E9 /* Example4.m */; };
+		BEEFA84B15CC536F00B839E9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA84A15CC536E00B839E9 /* MainViewController.m */; };
+		BEEFA84E15CC559700B839E9 /* ClickThroughRatesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BEEFA84D15CC559700B839E9 /* ClickThroughRatesViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,8 +45,8 @@
 		BEEFA82A15CA07B700B839E9 /* MainStoryboard_iPad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		BEEFA82B15CA07B700B839E9 /* FRD3DBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FRD3DBarChartViewController.h; sourceTree = "<group>"; };
 		BEEFA82C15CA07B700B839E9 /* FRD3DBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FRD3DBarChartViewController.m; sourceTree = "<group>"; };
-		BEEFA82D15CA07B700B839E9 /* FirstViewControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewControllerViewController.h; sourceTree = "<group>"; };
-		BEEFA82E15CA07B700B839E9 /* FirstViewControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewControllerViewController.m; sourceTree = "<group>"; };
+		BEEFA82D15CA07B700B839E9 /* GraphCalcViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphCalcViewController.h; sourceTree = "<group>"; };
+		BEEFA82E15CA07B700B839E9 /* GraphCalcViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphCalcViewController.m; sourceTree = "<group>"; };
 		BEEFA82F15CA07B700B839E9 /* Example1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example1.h; sourceTree = "<group>"; };
 		BEEFA83015CA07B700B839E9 /* Example1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example1.m; sourceTree = "<group>"; };
 		BEEFA83115CA07B700B839E9 /* Example2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example2.h; sourceTree = "<group>"; };
@@ -58,6 +60,10 @@
 		BEEFA84415CA081100B839E9 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BEEFA84615CB80BC00B839E9 /* Example4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Example4.h; sourceTree = "<group>"; };
 		BEEFA84715CB80BD00B839E9 /* Example4.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Example4.m; sourceTree = "<group>"; };
+		BEEFA84915CC536E00B839E9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		BEEFA84A15CC536E00B839E9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		BEEFA84C15CC559700B839E9 /* ClickThroughRatesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClickThroughRatesViewController.h; sourceTree = "<group>"; };
+		BEEFA84D15CC559700B839E9 /* ClickThroughRatesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClickThroughRatesViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,23 +116,16 @@
 		BEEFA81315CA070A00B839E9 /* FRD3DBarChart */ = {
 			isa = PBXGroup;
 			children = (
-				BEEFA82815CA07B700B839E9 /* Shapes.h */,
+				BEEFA84F15CC5D5D00B839E9 /* ChartControl */,
+				BEEFA85015CC5D7F00B839E9 /* ExampleDelegates */,
 				BEEFA82915CA07B700B839E9 /* MainStoryboard_iPhone.storyboard */,
 				BEEFA82A15CA07B700B839E9 /* MainStoryboard_iPad.storyboard */,
-				BEEFA82B15CA07B700B839E9 /* FRD3DBarChartViewController.h */,
-				BEEFA82C15CA07B700B839E9 /* FRD3DBarChartViewController.m */,
-				BEEFA82D15CA07B700B839E9 /* FirstViewControllerViewController.h */,
-				BEEFA82E15CA07B700B839E9 /* FirstViewControllerViewController.m */,
-				BEEFA82F15CA07B700B839E9 /* Example1.h */,
-				BEEFA83015CA07B700B839E9 /* Example1.m */,
-				BEEFA83115CA07B700B839E9 /* Example2.h */,
-				BEEFA83215CA07B700B839E9 /* Example2.m */,
-				BEEFA83315CA07B700B839E9 /* Example3.h */,
-				BEEFA83415CA07B700B839E9 /* Example3.m */,
-				BEEFA84615CB80BC00B839E9 /* Example4.h */,
-				BEEFA84715CB80BD00B839E9 /* Example4.m */,
-				BEEFA83515CA07B700B839E9 /* FRD3DBarChartViewController+Easing.h */,
-				BEEFA83615CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m */,
+				BEEFA82D15CA07B700B839E9 /* GraphCalcViewController.h */,
+				BEEFA82E15CA07B700B839E9 /* GraphCalcViewController.m */,
+				BEEFA84915CC536E00B839E9 /* MainViewController.h */,
+				BEEFA84A15CC536E00B839E9 /* MainViewController.m */,
+				BEEFA84C15CC559700B839E9 /* ClickThroughRatesViewController.h */,
+				BEEFA84D15CC559700B839E9 /* ClickThroughRatesViewController.m */,
 				BEEFA81C15CA070A00B839E9 /* AppDelegate.h */,
 				BEEFA81D15CA070A00B839E9 /* AppDelegate.m */,
 				BEEFA81415CA070A00B839E9 /* Supporting Files */,
@@ -143,6 +142,33 @@
 				BEEFA81B15CA070A00B839E9 /* FRD3DBarChart-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BEEFA84F15CC5D5D00B839E9 /* ChartControl */ = {
+			isa = PBXGroup;
+			children = (
+				BEEFA83515CA07B700B839E9 /* FRD3DBarChartViewController+Easing.h */,
+				BEEFA83615CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m */,
+				BEEFA82B15CA07B700B839E9 /* FRD3DBarChartViewController.h */,
+				BEEFA82C15CA07B700B839E9 /* FRD3DBarChartViewController.m */,
+				BEEFA82815CA07B700B839E9 /* Shapes.h */,
+			);
+			name = ChartControl;
+			sourceTree = "<group>";
+		};
+		BEEFA85015CC5D7F00B839E9 /* ExampleDelegates */ = {
+			isa = PBXGroup;
+			children = (
+				BEEFA82F15CA07B700B839E9 /* Example1.h */,
+				BEEFA83015CA07B700B839E9 /* Example1.m */,
+				BEEFA83115CA07B700B839E9 /* Example2.h */,
+				BEEFA83215CA07B700B839E9 /* Example2.m */,
+				BEEFA83315CA07B700B839E9 /* Example3.h */,
+				BEEFA83415CA07B700B839E9 /* Example3.m */,
+				BEEFA84615CB80BC00B839E9 /* Example4.h */,
+				BEEFA84715CB80BD00B839E9 /* Example4.m */,
+			);
+			name = ExampleDelegates;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,12 +237,14 @@
 				BEEFA81A15CA070A00B839E9 /* main.m in Sources */,
 				BEEFA81E15CA070A00B839E9 /* AppDelegate.m in Sources */,
 				BEEFA83915CA07B700B839E9 /* FRD3DBarChartViewController.m in Sources */,
-				BEEFA83A15CA07B700B839E9 /* FirstViewControllerViewController.m in Sources */,
+				BEEFA83A15CA07B700B839E9 /* GraphCalcViewController.m in Sources */,
 				BEEFA83B15CA07B700B839E9 /* Example1.m in Sources */,
 				BEEFA83C15CA07B700B839E9 /* Example2.m in Sources */,
 				BEEFA83D15CA07B700B839E9 /* Example3.m in Sources */,
 				BEEFA83E15CA07B700B839E9 /* FRD3DBarChartViewController+Easing.m in Sources */,
 				BEEFA84815CB80BD00B839E9 /* Example4.m in Sources */,
+				BEEFA84B15CC536F00B839E9 /* MainViewController.m in Sources */,
+				BEEFA84E15CC559700B839E9 /* ClickThroughRatesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

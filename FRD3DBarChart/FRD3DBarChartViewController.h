@@ -100,6 +100,7 @@ typedef NSUInteger kUpdateChartOptions;
 @interface FRD3DBarChartViewController : GLKViewController
 
 @property (nonatomic, strong) id<FRD3DBarChartViewControllerDelegate> frd3dBarChartDelegate;
+@property (nonatomic) BOOL useCylinders;
 
 -(void) updateChartAnimated:(BOOL) animated animationDuration:(NSTimeInterval)duration options:(kUpdateChartOptions)options;
 

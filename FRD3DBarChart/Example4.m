@@ -46,9 +46,6 @@ float gValsRevenue[] = {
 @implementation Example4
 
 
-
-
-
 -(int) frd3DBarChartViewControllerNumberRows:(FRD3DBarChartViewController *)frd3DBarChardViewController
 {
     return 3;
@@ -71,7 +68,7 @@ float gValsRevenue[] = {
 
 -(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController percentSizeForBarAtRow:(int)row column:(int)column
 {
-    return 0.85;
+    return 0.7;
 }
 
 -(NSString *)frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController legendForColumn:(int)column

@@ -41,12 +41,15 @@
 #import "FRD3DBarChartViewController+Easing.h"
 #import "Shapes.h"
 
-
 @interface FRD3DBarChartViewController () {
 
     
     GLKMatrix4 _modelViewProjectionMatrix;
     GLKMatrix3 _normalMatrix;
+    
+    
+    // cylinderBuffer is generated in code
+    GLfloat *cylinderBuffer;
     
     // bunch of variable openGL needs.
     GLuint _vertexArray;
@@ -54,11 +57,14 @@
     GLuint _vertexArrayVLine;
     GLuint _vertexArrayBasePlane;
     GLuint _vertexLeftLegendPlane;
+    GLuint _vertexCylinder;
+    
     GLuint _vertexBuffer;
     GLuint _vertexBuffer2;
     GLuint _vertexBuffer3;
     GLuint _vertexBuffer4;
     GLuint _vertexBuffer5;
+    GLuint _vertexBuffer6;
     
     // current x and y offset (modified by panning) and radius scale (modified by pinching). 
     float _offsetX;
@@ -131,6 +137,7 @@
 @synthesize offsetX = _offsetX;
 @synthesize offsetY = _offsetY;
 
+@synthesize useCylinders = _useCylinders;
 @synthesize frd3dBarChartDelegate = _frd3dBarChartDelegate;
 
 
@@ -620,12 +627,115 @@
 }
 
 
+-(int) numberCylinderFacets
+{
+    return 200;
+    float n = 200.0/ MAX([self numberColumns], [self numberRows]);
+    if (n<16) n = 16;
+    return (int)n;
+}
+
+-(void) generateCylinder
+{
+#define TWOPI (2.0f * M_PI)
+    
+    cylinderBuffer = (GLfloat *)malloc(4 * [self numberCylinderFacets] * 6 * 3 * sizeof(float));
+    
+    GLKVector3 centerBottom = GLKVector3Make(0.5f, 0.0, 0.5f);
+    GLKVector3 centerTop = GLKVector3Make(0.5f, 1.0, 0.5f);
+    float radius = 0.5f;
+    
+    int n = 0;
+    
+    for (int i=0; i<[self numberCylinderFacets]; i++) 
+    {
+        float theta1 = i * TWOPI / (float)[self numberCylinderFacets];
+        float theta2 = (i + 1) * TWOPI / (float)[self numberCylinderFacets];
+        
+        // top circle and bottom circle:
+        for (int c=0;c<2;c++)
+        {
+            GLKVector3 vect = c == 0 ? centerBottom : centerTop;
+            float normalY = c == 0 ? -1 : +1;
+            cylinderBuffer[n++] = vect.x;
+            cylinderBuffer[n++] = vect.y;
+            cylinderBuffer[n++] = vect.z;
+            cylinderBuffer[n++] = 0.0f; // normal x
+            cylinderBuffer[n++] = normalY; // normal y
+            cylinderBuffer[n++] = 0.0f; // normal z
+            
+            cylinderBuffer[n++] = vect.x + radius * cosf(theta1);
+            cylinderBuffer[n++] = vect.y;
+            cylinderBuffer[n++] = vect.z + radius * sinf(theta1);
+            cylinderBuffer[n++] = 0.0f; // normal x
+            cylinderBuffer[n++] = normalY; // normal y
+            cylinderBuffer[n++] = 0.0f; // normal z
+            
+            cylinderBuffer[n++] = vect.x + radius * cosf(theta2);
+            cylinderBuffer[n++] = vect.y;
+            cylinderBuffer[n++] = vect.z + radius * sinf(theta2);
+            cylinderBuffer[n++] = 0.0f; // normal x
+            cylinderBuffer[n++] = normalY; // normal y
+            cylinderBuffer[n++] = 0.0f; // normal z
+        }
+        
+        float normalX = cosf(theta1);
+        float normalY = sinf(theta1);
+        
+        // now the side faces, two triangles per facet...
+        cylinderBuffer[n++] = centerTop.x + radius * cosf(theta1);
+        cylinderBuffer[n++] = centerTop.y;
+        cylinderBuffer[n++] = centerTop.z + radius * sinf(theta1);
+        cylinderBuffer[n++] = normalX; // normal x
+        cylinderBuffer[n++] = 0.0; // normal y
+        cylinderBuffer[n++] = normalY; // normal z
+        
+        cylinderBuffer[n++] = centerTop.x + radius * cosf(theta1);
+        cylinderBuffer[n++] = centerBottom.y;
+        cylinderBuffer[n++] = centerTop.z + radius * sinf(theta1);
+        cylinderBuffer[n++] = normalX; // normal x
+        cylinderBuffer[n++] = 0.0; // normal y
+        cylinderBuffer[n++] = normalY; // normal z
+        
+        cylinderBuffer[n++] = centerTop.x + radius * cosf(theta2);
+        cylinderBuffer[n++] = centerBottom.y;
+        cylinderBuffer[n++] = centerTop.z + radius * sinf(theta2);
+        cylinderBuffer[n++] = normalX; // normal x
+        cylinderBuffer[n++] = 0.0; // normal y
+        cylinderBuffer[n++] = normalY; // normal z
+        
+        
+        cylinderBuffer[n++] = centerTop.x + radius * cosf(theta2);
+        cylinderBuffer[n++] = centerBottom.y;
+        cylinderBuffer[n++] = centerTop.z + radius * sinf(theta2);
+        cylinderBuffer[n++] = normalX; // normal x
+        cylinderBuffer[n++] = 0.0; // normal y
+        cylinderBuffer[n++] = normalY; // normal z
+        
+        cylinderBuffer[n++] = centerTop.x + radius * cosf(theta2);
+        cylinderBuffer[n++] = centerTop.y;
+        cylinderBuffer[n++] = centerTop.z + radius * sinf(theta2);
+        cylinderBuffer[n++] = normalX; // normal x
+        cylinderBuffer[n++] = 0.0; // normal y
+        cylinderBuffer[n++] = normalY; // normal z
+        
+        cylinderBuffer[n++] = centerTop.x + radius * cosf(theta1);
+        cylinderBuffer[n++] = centerTop.y;
+        cylinderBuffer[n++] = centerTop.z + radius * sinf(theta1);
+        cylinderBuffer[n++] = normalX; // normal x
+        cylinderBuffer[n++] = 0.0; // normal y
+        cylinderBuffer[n++] = normalY; // normal z
+        
+        }
+    
+}
+
+
 #pragma mark - view lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     
     _isAnimatingBarHeights = YES;
     _radiusScale = 1.0;
@@ -669,7 +779,14 @@
     view.context = self.context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
+    if (self.useCylinders)
+    {
+        [self generateCylinder];
+    }
+        
     [self setupGL];
+    
+    [self updateChartAnimated:NO animationDuration:0.0 options:0];
 }
 
 - (void)viewDidUnload
@@ -689,6 +806,7 @@
     free(_targetColors);
     free(_currentColors);
     free(_colorDeltas);
+    if (cylinderBuffer) free(cylinderBuffer);
 }
 
 - (void)didReceiveMemoryWarning
@@ -712,6 +830,8 @@
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindVertexArrayOES(0);
+    
+    if (!self.useCylinders)
     {
         glGenVertexArraysOES(1, &_vertexArray);
         glBindVertexArrayOES(_vertexArray);
@@ -728,6 +848,22 @@
         glEnableVertexAttribArray(GLKVertexAttribNormal);
         
     }
+    else
+    {
+        glGenVertexArraysOES(1, &_vertexCylinder);
+        glBindVertexArrayOES(_vertexCylinder);
+        
+        glGenBuffers(1, &_vertexBuffer6);   
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer6);
+        glBufferData(GL_ARRAY_BUFFER, 4 * [self numberCylinderFacets] * 6 * 3 * sizeof(float), cylinderBuffer, GL_STATIC_DRAW);
+        
+        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
+        glEnableVertexAttribArray(GLKVertexAttribPosition);
+        
+        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(12));
+        glEnableVertexAttribArray(GLKVertexAttribNormal);  
+    }
+    
     {
         glGenVertexArraysOES(1, &_vertexArrayHLine);
         glBindVertexArrayOES(_vertexArrayHLine);
@@ -821,6 +957,16 @@
     
     glDeleteBuffers(1, &_vertexBuffer);
     glDeleteVertexArraysOES(1, &_vertexArray);
+    glDeleteBuffers(1, &_vertexBuffer2);
+    glDeleteVertexArraysOES(1, &_vertexArrayBasePlane);
+    glDeleteBuffers(1, &_vertexBuffer3);
+    glDeleteVertexArraysOES(1, &_vertexArrayHLine);
+    glDeleteBuffers(1, &_vertexBuffer4);
+    glDeleteVertexArraysOES(1, &_vertexArrayVLine);
+    glDeleteBuffers(1, &_vertexBuffer5);
+    glDeleteVertexArraysOES(1, &_vertexLeftLegendPlane);
+    glDeleteBuffers(1, &_vertexBuffer6);
+    glDeleteVertexArraysOES(1, &_vertexCylinder);
     
     self.effect = nil;
 }
@@ -960,7 +1106,7 @@
     return -1 + [self cubeWidth] * ( [self numberRows] - [self numberColumns]) / 2.0;;
 }
 
--(float) startY
+-(float) startZ
 {
     if ([self numberRows] > [self numberColumns])
     {
@@ -997,7 +1143,7 @@
     // add a little bit of a margin:
     x +=  -labelHeight/1.5;
     
-    float y = [self startY] + labelHeightDifferenceWithCubeWidth/2.0f;
+    float z = [self startZ] + labelHeightDifferenceWithCubeWidth/2.0f;
     
     for (int i=0; i<([self numberRows]); i++)
     {
@@ -1007,7 +1153,7 @@
         {
             glBindVertexArrayOES(_vertexLeftLegendPlane);
             GLKVector3 rotation = GLKVector3Make(0.0, 0.0, 0.0);
-            GLKVector3 position = GLKVector3Make(x, 0.0, y);
+            GLKVector3 position = GLKVector3Make(x, 0.0, z);
             GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
             GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
             GLKMatrix4 zRotationMatrix = GLKMatrix4MakeZRotation(rotation.z);
@@ -1034,7 +1180,7 @@
             
             glDrawArrays(GL_TRIANGLES, 0, 6);
         }
-        y += [self cubeWidth];
+        z += [self cubeWidth];
     }
     
     if ([self numberValueLines] > 0)
@@ -1043,7 +1189,7 @@
         // our image is 300x100 so its lenght is 3 * cubewidth
         float x = [self startX] - (300.0/100.0) * HEIGHT_LABEL_SIZE - HEIGHT_LABEL_SIZE/2.0;
         float y = 1.0 / [self numberValueLines] + HEIGHT_LABEL_SIZE/2.0;
-        float z = [self startY];
+        float z = [self startZ];
         
         for (int i=0; i<([self numberValueLines]); i++)
         {
@@ -1086,7 +1232,7 @@
     }
     
     x = [self startX] + [self cubeWidth] - labelHeightDifferenceWithCubeWidth / 2.0;
-    y = [self startY] + [self cubeWidth] * ([self numberRows] + 1) - [self cubeWidth] + labelHeight / 1.5;
+    z = [self startZ] + [self cubeWidth] * ([self numberRows] + 1) - [self cubeWidth] + labelHeight / 1.5;
 
     
     for (int i=0; i<([self numberColumns]); i++)
@@ -1097,7 +1243,7 @@
         {
             glBindVertexArrayOES(_vertexLeftLegendPlane);
             GLKVector3 rotation = GLKVector3Make(0.0, -M_PI_2, 0.0);
-            GLKVector3 position = GLKVector3Make(x, 0.0, y);
+            GLKVector3 position = GLKVector3Make(x, 0.0, z);
             GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
             GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
             GLKMatrix4 zRotationMatrix = GLKMatrix4MakeZRotation(rotation.z);
@@ -1146,7 +1292,7 @@
         float y = (l + 1)/(float)numberLines;
         
         float x = [self startX];
-        float z = [self startY];
+        float z = [self startZ];
     #define NUMBER_DASHES 20
         for (int i=0; i<NUMBER_DASHES; i++)
         {
@@ -1183,7 +1329,7 @@
     // draw the grid starting with our horizontal plane.
     {
         float x = [self startX];
-        float y = [self startY];
+        float z = [self startZ];
         
         self.effect.light0.diffuseColor = GLKVector4Make(0.7f,0.7f,0.7f, 0.8f);
         self.effect.material.diffuseColor = GLKVector4Make(0.7f,0.7f,0.7f, 0.8f);
@@ -1192,7 +1338,7 @@
         
         glBindVertexArrayOES(_vertexArrayBasePlane);
         GLKVector3 rotation = GLKVector3Make(0.0, 0.0, 0.0);
-        GLKVector3 position = GLKVector3Make(x, 0.0, y);
+        GLKVector3 position = GLKVector3Make(x, 0.0, z);
         GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
         GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
         GLKMatrix4 zRotationMatrix = GLKMatrix4MakeZRotation(rotation.z);
@@ -1225,13 +1371,13 @@
     
     glBindVertexArrayOES(_vertexArrayHLine);
     
-    float y = [self startY];
+    float z = [self startZ];
     float x = [self startX];
     for (int i=0; i<([self numberRows] + 1); i++)
     {
         GLKVector3 rotation = GLKVector3Make(0.0, 0.0, 0.0);
-        GLKVector3 position = GLKVector3Make(x, 0.0, y);
-        y += [self cubeWidth];
+        GLKVector3 position = GLKVector3Make(x, 0.0, z);
+        z += [self cubeWidth];
         GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
         GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
         GLKMatrix4 zRotationMatrix = GLKMatrix4MakeZRotation(rotation.z);
@@ -1254,12 +1400,12 @@
     }
     
     glBindVertexArrayOES(_vertexArrayVLine);
-    y = [self startY];
+    z = [self startZ];
     x = [self startX];
     for (int i=0; i<([self numberColumns] + 1); i++)
     {
         GLKVector3 rotation = GLKVector3Make(0.0, 0.0, 0.0);
-        GLKVector3 position = GLKVector3Make(x, 0.0, y);
+        GLKVector3 position = GLKVector3Make(x, 0.0, z);
         x += [self cubeWidth];
         GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
         GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
@@ -1289,10 +1435,13 @@
 {
     // draw the cubes
     
-    glBindVertexArrayOES(_vertexArray);
+    if (!self.useCylinders)
+        glBindVertexArrayOES(_vertexArray);
+    else
+        glBindVertexArrayOES(_vertexCylinder);
     
     float x = [self startX];
-    float y = [self startY];
+    float z = [self startZ];
     for (int i=0; i<[self numberRows]; i++)
     {
         for (int j=0; j< [self numberColumns]; j++)
@@ -1304,7 +1453,7 @@
                 GLKVector3 rotation = GLKVector3Make(0.0, 0.0, 0.0);
                 GLKVector3 position = GLKVector3Make(x + ([self cubeWidth] * (1-percentSize))/2.0, // make sure our bar is centered in the grid cell
                                                      -0.0, 
-                                                     y + ([self cubeWidth] * (1-percentSize))/2.0);
+                                                     z + ([self cubeWidth] * (1-percentSize))/2.0);
                 
                 GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
                 GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
@@ -1337,12 +1486,16 @@
                 self.effect.material.diffuseColor = GLKVector4Make(0.9 * r, 0.9 * g, 0.9 * b, 0.9 * a);
                 [self.effect prepareToDraw];
                 
-                glDrawArrays(GL_TRIANGLES, 0, 36);
+                if (!self.useCylinders)
+                    glDrawArrays(GL_TRIANGLES, 0, 36);
+                else
+                    glDrawArrays(GL_TRIANGLES, 0, 4 * [self numberCylinderFacets] * 3);
+
                 
             }
             x += [self cubeWidth];
         }
-        y += [self cubeWidth];
+        z += [self cubeWidth];
         x = [self startX];
     }
     glBindVertexArrayOES(0);
