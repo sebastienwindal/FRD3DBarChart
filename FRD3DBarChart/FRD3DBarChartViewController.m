@@ -629,8 +629,7 @@
 
 -(int) numberCylinderFacets
 {
-    return 200;
-    float n = 200.0/ MAX([self numberColumns], [self numberRows]);
+    float n = 1000.0/ MAX([self numberColumns], [self numberRows]);
     if (n<16) n = 16;
     return (int)n;
 }

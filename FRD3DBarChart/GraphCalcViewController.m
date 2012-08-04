@@ -72,7 +72,6 @@
     UIStoryboard *storyboard = self.storyboard;
     self.frd3DBarCharVC = [storyboard instantiateViewControllerWithIdentifier:@"FRD3DBarChart"];
     
-    
     [self addChildViewController:self.frd3DBarCharVC];
     self.frd3DBarCharVC.frd3dBarChartDelegate = self.example1;
     
