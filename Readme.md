@@ -6,8 +6,6 @@ Sebastien Windal - Free Range Developers.
 
 Licensed under New BSD.
 
-![Screenshot](FRD3DBarChart/raw/master/screenshot2.png)
-
-![Screenshot](FRD3DBarChart/raw/master/screenshot.png)
+![Screenshot](FRD3DBarChart/raw/master/screenshot2.png) [Screenshot](FRD3DBarChart/raw/master/screenshot.png)
 
 
