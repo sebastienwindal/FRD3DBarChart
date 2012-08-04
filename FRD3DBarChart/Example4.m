@@ -110,7 +110,7 @@ float gValsRevenue[] = {
 
 -(bool) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController hasBarForRow:(int)row column:(int)column
 {
-    if (row == 2 && column == 0) return false; 
+    if (row == 2 && column == 0) return false; // no revenue data for Google in 2001 from the financial web site I was using.
     return true;
 }
 @end
