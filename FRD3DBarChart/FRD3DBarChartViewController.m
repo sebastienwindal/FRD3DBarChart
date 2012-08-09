@@ -799,13 +799,17 @@
     }
 	self.context = nil;
     
-    free(_targetBarHeights);
-    free(_currentBarHeights);
-    free(_barHeightAnimationDeltas);
-    free(_targetColors);
-    free(_currentColors);
-    free(_colorDeltas);
-    if (cylinderBuffer) free(cylinderBuffer);
+    free(_targetBarHeights); _targetBarHeights = NULL;
+    free(_currentBarHeights); _currentBarHeights = NULL;
+    free(_barHeightAnimationDeltas); _barHeightAnimationDeltas = NULL;
+    free(_targetColors); _targetColors = NULL;
+    free(_currentColors); _currentColors = NULL;
+    free(_colorDeltas); _colorDeltas = NULL;
+    if (cylinderBuffer) 
+    {
+        free(cylinderBuffer);
+        cylinderBuffer = NULL;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -1525,5 +1529,16 @@
 
 }
 
+
+-(void) dealloc
+{
+    if (_targetBarHeights) free(_targetBarHeights);
+    if (_currentBarHeights) free(_currentBarHeights);
+    if (_barHeightAnimationDeltas) free(_barHeightAnimationDeltas);
+    if (_targetColors) free(_targetColors);
+    if (_currentColors) free(_currentColors);
+    if (_colorDeltas) free(_colorDeltas);
+    if (cylinderBuffer) free(cylinderBuffer);
+}
 
 @end
