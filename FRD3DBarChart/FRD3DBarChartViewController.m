@@ -42,7 +42,7 @@
 #import "Shapes.h"
 
 #if __has_feature(objc_arc)
-#elif
+#else
 #error You must enable ARC to use this control. Come on! It is 2012, time has come!
 #endif
 
