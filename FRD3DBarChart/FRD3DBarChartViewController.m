@@ -41,6 +41,11 @@
 #import "FRD3DBarChartViewController+Easing.h"
 #import "Shapes.h"
 
+#if __has_feature(objc_arc)
+#elif
+#error You must enable ARC to use this control. Come on! It is 2012, time has come!
+#endif
+
 @interface FRD3DBarChartViewController () {
 
     
