@@ -38,6 +38,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/CoreAnimation.h>
 #import <QuartzCore/QuartzCore.h>
+#import <CoreText/CoreText.h>
 #import "FRD3DBarChartViewController+Easing.h"
 #import "Shapes.h"
 
@@ -63,6 +64,7 @@
     GLuint _vertexArrayBasePlane;
     GLuint _vertexLeftLegendPlane;
     GLuint _vertexCylinder;
+    GLuint _vertexTopText;
     
     GLuint _vertexBuffer;
     GLuint _vertexBuffer2;
@@ -70,6 +72,7 @@
     GLuint _vertexBuffer4;
     GLuint _vertexBuffer5;
     GLuint _vertexBuffer6;
+    GLuint _vertexBuffer7;
     
     // current x and y offset (modified by panning) and radius scale (modified by pinching). 
     float _offsetX;
@@ -119,6 +122,7 @@
 @property (nonatomic, strong) NSMutableDictionary *rowLegendTextures;
 @property (nonatomic, strong) NSMutableDictionary *columnLegendTextures;
 @property (nonatomic, strong) NSMutableDictionary *valueLegendTextures;
+@property (nonatomic, strong) NSMutableDictionary *topLabelTextures;
 
 @property (nonatomic) float radiusScale;
 @property (nonatomic) float offsetX;
@@ -138,6 +142,7 @@
 @synthesize rowLegendTextures = _rowLegendTextures;
 @synthesize columnLegendTextures = _columnLegendTextures;
 @synthesize valueLegendTextures = _valueLegendTextures;
+@synthesize topLabelTextures = _topLabelTextures;
 @synthesize radiusScale = _radiusScale;
 @synthesize offsetX = _offsetX;
 @synthesize offsetY = _offsetY;
@@ -262,6 +267,22 @@
     }
 }
 
+-(void) setTopLabelTextures:(NSMutableDictionary *)topLabelTextures
+{
+    if (topLabelTextures != _topLabelTextures)
+    {
+        // problem with texture is they are not freed on their own since they are retained by GL.
+        for (NSNumber *number in [_topLabelTextures keyEnumerator])
+        {
+            GLKTextureInfo *text = [_topLabelTextures objectForKey:number];
+            GLuint name = text.name;
+            glDeleteTextures(1, &name);
+        }
+        // now we have cleaned up everything we can override the dictionary.
+        _rowLegendTextures = topLabelTextures;
+    }
+}
+
 
 // lazy loading of value label textures
 -(NSMutableDictionary *) valueLegendTextures
@@ -335,8 +356,6 @@
 }
 
 
-
-
 // lazy loading of column label textures
 -(NSMutableDictionary *) columnLegendTextures
 {
@@ -373,9 +392,191 @@
     }
     return _columnLegendTextures;
 }
+#define COLUMNOFFSETID 0x10000
+
+// lazy loading of top label textures
+-(NSMutableDictionary *) topLabelTextures
+{
+    if (_topLabelTextures == nil)
+    {
+        int maxDim = MAX([self numberColumns], [self numberRows]);
+        
+        float textureSize = 1500/maxDim;
+        textureSize = MAX(textureSize, 40);
+        
+        _topLabelTextures = [[NSMutableDictionary alloc] init];
+        
+        NSString *fontName;
+        
+        if ([self.frd3dBarChartDelegate respondsToSelector:@selector(frd3DBarChartViewControllerTopTextFontName:)])
+        {
+            fontName = [self.frd3dBarChartDelegate frd3DBarChartViewControllerTopTextFontName:self];
+        }
+        if ([fontName length] == 0) fontName = @"Helvetica"; // our default
+        
+        if ([self.frd3dBarChartDelegate respondsToSelector:@selector(frd3DBarChartViewControllerHasTopText:)] &&
+            [self.frd3dBarChartDelegate frd3DBarChartViewControllerHasTopText:self])
+        {
+            
+            for (int i=0; i<[self numberRows];i++)
+            {
+                for (int j=0; j<[self numberColumns];j++)
+                {
+                    NSString *legendText = @"";
+                    
+                    if ([self.frd3dBarChartDelegate respondsToSelector:@selector(frd3DBarChartViewController:topTextForBarAtRow:column:)])
+                    {
+                        legendText = [self.frd3dBarChartDelegate frd3DBarChartViewController:self topTextForBarAtRow:i column:j];
+                    }
+                    
+                    UIColor *color = nil;
+                    if ([self.frd3dBarChartDelegate respondsToSelector:@selector(frd3DBarChartViewController:colorForTopTextBarAtRow:column:)])
+                    {
+                        color = [self.frd3dBarChartDelegate frd3DBarChartViewController:self colorForTopTextBarAtRow:i column:j];
+                    }
+                    if (color == nil) color = [UIColor whiteColor];
+                    
+                    if ([legendText length] > 0)
+                    {
+                        UIImage *image = [self topImageWithText:legendText
+                                                       fontName:fontName
+                                                          color:color
+                                                          width:100.0
+                                                         height:100.0];
+                        NSError *error = nil;
+                        NSDictionary *options = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:YES], GLKTextureLoaderApplyPremultiplication, nil];
+                        GLKTextureInfo *texture = [GLKTextureLoader textureWithCGImage:image.CGImage options:options error:&error];
+                        if (error == nil)
+                        {
+                            [_topLabelTextures setObject:texture forKey:[NSNumber numberWithInt:i * COLUMNOFFSETID + j]];
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return _topLabelTextures;
+}
+
+CTFontRef CTFontCreateFromUIFont(UIFont *font)
+{
+    CTFontRef ctFont = CTFontCreateWithName((__bridge CFStringRef)font.fontName,
+                                            font.pointSize,
+                                            NULL);
+    return ctFont;
+}
+
++ (id)fontWithCTFont:(CTFontRef)ctFont
+{
+    CFStringRef fontName = CTFontCopyFullName(ctFont);
+    CGFloat fontSize = CTFontGetSize(ctFont);
+    
+    UIFont *ret = [UIFont fontWithName:(__bridge NSString *)fontName size:fontSize];
+    CFRelease(fontName);
+    return ret;
+}
+
++ (id)mutableAttributedStringWithString:(NSString *)string font:(UIFont *)font color:(UIColor *)color alignment:(CTTextAlignment)alignment
+
+{
+    CFMutableAttributedStringRef attrString = CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
+    
+    if (string != nil)
+        CFAttributedStringReplaceString (attrString, CFRangeMake(0, 0), (CFStringRef)string);
+    
+    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), kCTForegroundColorAttributeName, color.CGColor);
+    CTFontRef theFont = CTFontCreateFromUIFont(font);
+    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), kCTFontAttributeName, theFont);
+    CFRelease(theFont);
+    
+    CTParagraphStyleSetting settings[] = {kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment};
+    CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings) / sizeof(settings[0]));
+    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), kCTParagraphStyleAttributeName, paragraphStyle);
+    CFRelease(paragraphStyle);
+    
+    
+    NSMutableAttributedString *ret = (__bridge NSMutableAttributedString *)attrString;
+    
+    return ret;
+}
 
 
--(UIImage *) imageWithText:(NSString *)text 
+
+-(UIImage *) topImageWithText:(NSString *)text
+                     fontName:(NSString *)fontName
+                        color:(UIColor *)color
+                        width:(float)width
+                       height:(float)height
+{
+    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    
+    CGContextRef _composedImageContext = CGBitmapContextCreate(NULL,
+                                                               width,
+                                                               height,
+                                                               8,
+                                                               width*4,
+                                                               rgbColorSpace,
+                                                               kCGBitmapByteOrderDefault|kCGImageAlphaPremultipliedFirst);
+    
+    // draw your things into _composedImageContext
+    char* txt	= (char *)[text cStringUsingEncoding:NSASCIIStringEncoding];
+    if (txt == NULL) return nil;
+    
+    float fontSize = 60;
+    CGSize expectedLabelSize;
+    CGFloat ascent = 0;
+    CGFloat descent = 0;
+    CGFloat leading = 0;
+    while (fontSize >= 6) {
+
+        CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)([FRD3DBarChartViewController mutableAttributedStringWithString:text
+                                                                                                                               font:[UIFont fontWithName:fontName
+                                                                                                                                                    size:fontSize]
+                                                                                                                              color:[UIColor whiteColor]
+                                                                                                                          alignment:kCTTextAlignmentLeft]);
+        CTLineRef line = CTLineCreateWithAttributedString(attrString);
+
+        CGFloat textWidth = CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
+        CGFloat textHeight = ascent+descent;
+    
+        CFRelease(attrString);
+        CFRelease(line);
+        
+        expectedLabelSize = CGSizeMake(textWidth, textHeight);
+        if (textHeight < height && textWidth < width)
+            break;
+        
+        fontSize--;
+    }
+    
+    
+    CGContextSelectFont(_composedImageContext, [fontName cStringUsingEncoding:NSASCIIStringEncoding], fontSize, kCGEncodingMacRoman);
+    CGContextSetTextDrawingMode(_composedImageContext, kCGTextFill);
+    CGContextSetFillColorWithColor(_composedImageContext, color.CGColor);
+    
+
+    
+    float y = height/2.0 - expectedLabelSize.height/2.0 + (descent)/2.0;
+    float x = width/2.0 - expectedLabelSize.width/2.0;
+    NSLog(@"%s", txt);
+    CGContextShowTextAtPoint(_composedImageContext, x, y, txt, strlen(txt));
+    
+    //finally turn the context into a CGImage
+    CGImageRef cgImage = CGBitmapContextCreateImage(_composedImageContext);
+    
+    CGContextRelease(_composedImageContext);
+    
+    UIImage *image = [UIImage imageWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    CGColorSpaceRelease(rgbColorSpace);
+    
+    return image;
+}
+
+
+
+-(UIImage *) imageWithText:(NSString *)text
                   fontName:(NSString *)fontName 
                      color:(UIColor *)color
                      width:(float)width 
@@ -764,7 +965,6 @@
     _currentColors = malloc([self numberRows] * [self numberColumns] * sizeof(float) * 4); // r g b a
     _colorDeltas = malloc([self numberRows] * [self numberColumns] * sizeof(float) * 4);  // r g b a
     
-    
     bzero(_targetBarHeights, [self numberRows] * [self numberColumns] * sizeof(float));
     bzero(_currentBarHeights, [self numberRows] * [self numberColumns] * sizeof(float));
     bzero(_barHeightAnimationDeltas, [self numberRows] * [self numberColumns] * sizeof(float));
@@ -934,10 +1134,31 @@
         glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 32, BUFFER_OFFSET(24));
         glEnableVertexAttribArray(GLKVertexAttribTexCoord0);    
     }
+
+    { // gTopTextData
+        glGenVertexArraysOES(1, &_vertexTopText);
+        glBindVertexArrayOES(_vertexTopText);
+        
+        glGenBuffers(1, &_vertexBuffer7);
+        glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer7);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(gTopTextData), gTopTextData, GL_STATIC_DRAW);
+        
+        glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, 32, BUFFER_OFFSET(0));
+        glEnableVertexAttribArray(GLKVertexAttribPosition);
+        
+        glVertexAttribPointer(GLKVertexAttribNormal, 3, GL_FLOAT, GL_FALSE, 32, BUFFER_OFFSET(12));
+        glEnableVertexAttribArray(GLKVertexAttribNormal);
+        
+        glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 32, BUFFER_OFFSET(24));
+        glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
+    }
+
+    
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    //glBindVertexArrayOES(0);
+    
+    
 }
 
 - (void)setupGL
@@ -975,7 +1196,8 @@
     glDeleteVertexArraysOES(1, &_vertexLeftLegendPlane);
     glDeleteBuffers(1, &_vertexBuffer6);
     glDeleteVertexArraysOES(1, &_vertexCylinder);
-    
+    glDeleteBuffers(1, &_vertexBuffer7);
+    glDeleteVertexArraysOES(1, &_vertexTopText);
     self.effect = nil;
 }
 
@@ -1283,6 +1505,83 @@
     glDisable(GL_BLEND);
 }
 
+
+-(void) drawTopText
+{
+    // draw the legend.
+    glEnable(GL_BLEND);
+    glBlendFunc( GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
+    
+    glDepthMask(GL_FALSE); // required to make the texture bgnd transparent...
+    
+    float x = [self startX];
+    float z = [self startZ];
+    
+    float marginRatio = 0.8; // 20% margin on all sides...
+    
+    // our image is 300x100 so once scaled (by a labelHeight factor), its length will end up being 3 * labelHeight
+    for (int i=0; i<[self numberRows]; i++)
+    {
+        for (int j=0; j< [self numberColumns]; j++)
+        {
+            if ([self hasBarForRow:i column:j])
+            {
+                GLKTextureInfo *texture = [self.topLabelTextures objectForKey:[NSNumber numberWithInt:COLUMNOFFSETID * i + j]];
+                
+                if (texture != nil)
+                {
+                    glBindVertexArrayOES(_vertexTopText);
+                    
+                    float percentSize = [self cubePercentSizeForBarAtRow:i column:j] * marginRatio;
+                    float height = _currentBarHeights[i*[self numberColumns] + j];
+                    
+                    GLKVector3 rotation = GLKVector3Make(0.0, 0.0, 0.0);
+                    GLKVector3 position = GLKVector3Make(x, // make sure our bar is centered in the grid cell
+                                                         height + 0.001,
+                                                         z );
+                    
+                    GLKMatrix4 xRotationMatrix = GLKMatrix4MakeXRotation(rotation.x);
+                    GLKMatrix4 yRotationMatrix = GLKMatrix4MakeYRotation(rotation.y);
+                    GLKMatrix4 zRotationMatrix = GLKMatrix4MakeZRotation(rotation.z);
+                    
+
+                    GLKMatrix4 scaleMatrix     = GLKMatrix4MakeScale([self cubeWidth] * percentSize,
+                                                                     0.0,
+                                                                     [self cubeWidth] * percentSize);
+                    GLKMatrix4 translateMatrix = GLKMatrix4MakeTranslation(position.x + [self cubeWidth] *(1-percentSize)/2.0, position.y, position.z + [self cubeWidth] *(1-percentSize)/2.0);
+                    
+                    GLKMatrix4 modelMatrix =
+                    GLKMatrix4Multiply(translateMatrix,
+                                       GLKMatrix4Multiply(scaleMatrix,
+                                                          GLKMatrix4Multiply(zRotationMatrix,
+                                                                             GLKMatrix4Multiply(yRotationMatrix,
+                                                                                                xRotationMatrix))));
+                    
+                    self.effect.transform.modelviewMatrix = GLKMatrix4Multiply(self.viewMatrix, modelMatrix);
+                    
+                    
+                    self.effect.texture2d0.enabled = GL_TRUE;
+                    self.effect.texture2d0.envMode = GLKTextureEnvModeReplace;
+                    self.effect.texture2d0.target = GLKTextureTarget2D;
+                    self.effect.texture2d0.name = texture.name;
+                    
+                    [self.effect prepareToDraw];
+                    
+                    glDrawArrays(GL_TRIANGLES, 0, 6);
+                }
+            }
+            x += [self cubeWidth];
+        }
+        x = [self startX];
+        z += [self cubeWidth];
+    }
+    glBindVertexArrayOES(0);
+    
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
+
+}
+
 -(void) drawValueLines
 {
     int numberLines = [self numberValueLines];
@@ -1526,12 +1825,13 @@
 
     [self drawBars];
     
+    [self drawTopText];
+    
     // drawLegend must drawn last because I am disabling the glDepthMask in it and that messes things up, 
     // even though I am reenabling it at the end of drawLegend. I'd like to understand why. Some day.
     // see http://stackoverflow.com/questions/9353210/rendering-glitch-with-gl-depth-test-and-transparent-textures 
     // answer from SigTerm.
     [self drawLegend];
-
 }
 
 

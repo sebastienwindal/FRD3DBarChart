@@ -87,27 +87,29 @@ float gValsFacebook[7*24] = {
 
 #pragma mark FRD3DBarChartViewControllerDelegate implementation
 
--(int) frd3DBarChartViewControllerNumberRows:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(int) frd3DBarChartViewControllerNumberRows:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return 7;
 }
 
--(int) frd3DBarChartViewControllerNumberColumns:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(int) frd3DBarChartViewControllerNumberColumns:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return 24;  
 }
 
--(float) frd3DBarChartViewControllerMaxValue:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(float) frd3DBarChartViewControllerMaxValue:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return 256.0f;
 }
 
--(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController valueForBarAtRow:(int)row column:(int)column
+-(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController valueForBarAtRow:(int)row column:(int)column
 {
     return 256.0f - gvals[row * 24 + column];
 }
 
--(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController legendForRow:(int)row
+
+
+-(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController legendForRow:(int)row
 {
     switch (row) {
         case 0:
@@ -138,13 +140,13 @@ float gValsFacebook[7*24] = {
 }
 
 
--(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController percentSizeForBarAtRow:(int)row column:(int)column
+-(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController percentSizeForBarAtRow:(int)row column:(int)column
 {
     return 1.0;
 }
 
 
--(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController legendForColumn:(int)column
+-(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController legendForColumn:(int)column
 {
     if (column % 2) return nil;
     
@@ -154,7 +156,7 @@ float gValsFacebook[7*24] = {
     
 }
 
--(UIColor *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController colorForBarAtRow:(int)row column:(int)column
+-(UIColor *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController colorForBarAtRow:(int)row column:(int)column
 {
     
     float val = gvals[row * 24 + column];
@@ -167,12 +169,12 @@ float gValsFacebook[7*24] = {
     
 }
 
--(NSString *) frd3DBarChartViewControllerColumnLegendFontName:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(NSString *) frd3DBarChartViewControllerColumnLegendFontName:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return @"Verdana-Italic";
 }
 
--(NSString *) frd3DBarChartViewControllerRowLegendFontName:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(NSString *) frd3DBarChartViewControllerRowLegendFontName:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return @"Verdana-Bold";
 }

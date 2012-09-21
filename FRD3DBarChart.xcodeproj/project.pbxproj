@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BE75C47F160CDB4F00BFC507 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BE75C47E160CDB4F00BFC507 /* Default-568h@2x.png */; };
+		BE75C482160D16D500BFC507 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE75C481160D16D500BFC507 /* CoreText.framework */; };
 		BEEFA80E15CA070A00B839E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA80D15CA070A00B839E9 /* UIKit.framework */; };
 		BEEFA81015CA070A00B839E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA80F15CA070A00B839E9 /* Foundation.framework */; };
 		BEEFA81215CA070A00B839E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA81115CA070A00B839E9 /* CoreGraphics.framework */; };
@@ -32,6 +33,7 @@
 
 /* Begin PBXFileReference section */
 		BE75C47E160CDB4F00BFC507 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		BE75C481160D16D500BFC507 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		BEEFA80915CA070A00B839E9 /* FRD3DBarChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRD3DBarChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEEFA80D15CA070A00B839E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEEFA80F15CA070A00B839E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -73,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE75C482160D16D500BFC507 /* CoreText.framework in Frameworks */,
 				BEEFA84515CA081100B839E9 /* OpenGLES.framework in Frameworks */,
 				BEEFA84315CA080B00B839E9 /* GLKit.framework in Frameworks */,
 				BEEFA81015CA070A00B839E9 /* Foundation.framework in Frameworks */,
@@ -88,6 +91,7 @@
 		BEEFA7FE15CA070A00B839E9 = {
 			isa = PBXGroup;
 			children = (
+				BE75C481160D16D500BFC507 /* CoreText.framework */,
 				BE75C47E160CDB4F00BFC507 /* Default-568h@2x.png */,
 				BEEFA84415CA081100B839E9 /* OpenGLES.framework */,
 				BEEFA84215CA080B00B839E9 /* GLKit.framework */,

@@ -49,16 +49,16 @@
 #define SIZE 26
 #define HALF_SIZE (SIZE / 2)
 
--(int) frd3DBarChartViewControllerNumberRows:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(int) frd3DBarChartViewControllerNumberRows:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return SIZE;
 }
 
--(int) frd3DBarChartViewControllerNumberColumns:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(int) frd3DBarChartViewControllerNumberColumns:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return SIZE;  
 }
--(float) frd3DBarChartViewControllerMaxValue:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(float) frd3DBarChartViewControllerMaxValue:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return 1.0f;
 }
@@ -70,11 +70,11 @@
     
 }
 
--(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController valueForBarAtRow:(int)row column:(int)column
+-(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController valueForBarAtRow:(int)row column:(int)column
 {
     // "centered" coordinatess
-    float x = row - [self frd3DBarChartViewControllerNumberRows:frd3DBarChardViewController]/2.0;
-    float y = column - [self frd3DBarChartViewControllerNumberColumns:frd3DBarChardViewController]/2.0;
+    float x = row - [self frd3DBarChartViewControllerNumberRows:frd3DBarChartViewController]/2.0;
+    float y = column - [self frd3DBarChartViewControllerNumberColumns:frd3DBarChartViewController]/2.0;
     
     // distance from center:
     float d = sqrtf(x*x + y*y);
@@ -100,7 +100,29 @@
     return v * (0.8 + cos(runCount)/5.0);
 }
 
--(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController legendForRow:(int)row
+
+/* uncomment to add text to bars:
+
+-(BOOL) frd3DBarChartViewControllerHasTopText:(FRD3DBarChartViewController *)frd3DBarChartViewController {
+    return YES;
+}
+
+-(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController topTextForBarAtRow:(int)row column:(int)column
+{
+    int ascii = 65 + (row * SIZE + column) % 26;
+    return [NSString stringWithFormat:@"%c", ascii];
+}
+
+-(NSString *) frd3DBarChartViewControllerTopTextFontName:frd3DBarChartViewController
+{
+    //return @"Zapfino";
+    return @"AmericanTypewriter-Bold";
+}
+
+*/
+
+
+-(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController legendForRow:(int)row
 {
     if ((row-HALF_SIZE) % 5 != 0) return nil;
     
@@ -108,16 +130,16 @@
 }
 
 
--(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController legendForColumn:(int)column
+-(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController legendForColumn:(int)column
 {
     if ((column-HALF_SIZE) % 5 != 0) return nil;
     
     return [NSString stringWithFormat:@"%d", column - HALF_SIZE];
 }
 
--(UIColor *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController colorForBarAtRow:(int)row column:(int)column
+-(UIColor *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController colorForBarAtRow:(int)row column:(int)column
 {
-    float v = [self frd3DBarChartViewController:frd3DBarChardViewController valueForBarAtRow:row column:column];
+    float v = [self frd3DBarChartViewController:frd3DBarChartViewController valueForBarAtRow:row column:column];
     
     // "centered" coordinatess
     float x = row - HALF_SIZE;
@@ -138,7 +160,7 @@
     return color;
 }
 
--(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController percentSizeForBarAtRow:(int)row column:(int)column
+-(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController percentSizeForBarAtRow:(int)row column:(int)column
 {
     return 0.9;
 }

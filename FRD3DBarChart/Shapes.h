@@ -58,7 +58,7 @@ enum
 GLfloat gCubeVertexData[216] = 
 {
     // Data layout for each line below is:
-    // positionX, positionY, positionZ,     normalX, normalY, normalZ,  R,G,B
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ
     
     // 6 triangles, 3 square faces
     //right face:
@@ -111,12 +111,14 @@ GLfloat gCubeVertexData[216] =
 
 GLfloat gHLineVertexData[2*6] = 
 {
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ,
     0.0f, -0.0f, -0.0f,       0.0f, +1.0f, 1.0f,    
     1.0f, -0.0f, -0.0f,        0.0f, +1.0f, 1.0f,   
 };
 
 GLfloat gVLineVertexData[2*6] = 
 {
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ,
     0.0f, 0.0f, 0.0f,       0.0f, +1.0f, 0.0f,      
     0.0f, 0.0f, 1.0f,        0.0f, +1.0f, 0.0f,     
 };
@@ -124,6 +126,7 @@ GLfloat gVLineVertexData[2*6] =
 
 GLfloat gBasePlaneData[6*6] = 
 {
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ,
     0.0f, 0.0f, 0.0f,       0.0f, +1.0f, 0.0f,      
     1.0f, 0.0f, 0.0f,        0.0f, +1.0f, 0.0f,     
     0.0f, 0.0f, 1.0f,        0.0f, +1.0f, 0.0f,     
@@ -134,12 +137,26 @@ GLfloat gBasePlaneData[6*6] =
 
 GLfloat gLeftLegendPlaneData[6*8] = 
 {
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ,  texture X, texture Y
     0.0f, 0.0f, 0.0f,       0.0f, +0.0f, 0.0f,      0.0f, 0.0f,
     3.0f, 0.0f, 0.0f,        0.0f, +0.0f, 0.0f,     1.0f, 0.0f,
     0.0f, 0.0f, 1.0f,        0.0f, +0.0f, 0.0f,     0.0f, 1.0f,
     0.0f, 0.0f, 1.0f,        0.0f, +0.0f, 0.0f,     0.0f, 1.0f,
     3.0f, 0.0f, 0.0f,        0.0f, +0.0f, 0.0f,     1.0f, 0.0f,
     3.0f, 0.0f, 1.0f,         0.0f, +0.0f, 0.0f,    1.0f, 1.0f,
+};
+
+GLfloat gTopTextData[6*8] =
+{
+    // positionX, positionY, positionZ,     normalX, normalY, normalZ,  texture X, texture Y
+    0.0f, 0.0f, 0.0f,       0.0f, +0.0f, 0.0f,      0.0f, 0.0f,
+    1.0f, 0.0f, 0.0f,        0.0f, +0.0f, 0.0f,     1.0f, 0.0f,
+    0.0f, 0.0f, 1.0f,        0.0f, +0.0f, 0.0f,     0.0f, 1.0f,
+    0.0f, 0.0f, 1.0f,        0.0f, +0.0f, 0.0f,     0.0f, 1.0f,
+    1.0f, 0.0f, 0.0f,        0.0f, +0.0f, 0.0f,     1.0f, 0.0f,
+    1.0f, 0.0f, 1.0f,         0.0f, +0.0f, 0.0f,    1.0f, 1.0f,
+    
+
 };
 
 #endif

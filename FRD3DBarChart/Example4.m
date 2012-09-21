@@ -46,48 +46,48 @@ float gValsRevenue[] = {
 @implementation Example4
 
 
--(int) frd3DBarChartViewControllerNumberRows:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(int) frd3DBarChartViewControllerNumberRows:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return 3;
 }
 
--(int) frd3DBarChartViewControllerNumberColumns:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(int) frd3DBarChartViewControllerNumberColumns:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return 12;
 }
 
--(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController valueForBarAtRow:(int)row column:(int)column
+-(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController valueForBarAtRow:(int)row column:(int)column
 {
     return gValsRevenue[row * 12 + column];
 }
 
--(float) frd3DBarChartViewControllerMaxValue:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(float) frd3DBarChartViewControllerMaxValue:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return 150;
 }
 
--(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController percentSizeForBarAtRow:(int)row column:(int)column
+-(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController percentSizeForBarAtRow:(int)row column:(int)column
 {
     return 0.7;
 }
 
--(NSString *)frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController legendForColumn:(int)column
+-(NSString *)frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController legendForColumn:(int)column
 {
     return [NSString stringWithFormat:@"%d", 2001 + column];
 }
 
--(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController legendForRow:(int)row
+-(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController legendForRow:(int)row
 {
     if (row == 0) return @"Microsoft";
     else if (row == 1) return @"Apple";
     else return @"Google";
 }
 
--(UIColor *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController colorForBarAtRow:(int)row column:(int)column
+-(UIColor *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController colorForBarAtRow:(int)row column:(int)column
 {
     
-    float val = [self frd3DBarChartViewController:frd3DBarChardViewController valueForBarAtRow:row column:column];
-    float max = [self frd3DBarChartViewControllerMaxValue:frd3DBarChardViewController];
+    float val = [self frd3DBarChartViewController:frd3DBarChartViewController valueForBarAtRow:row column:column];
+    float max = [self frd3DBarChartViewControllerMaxValue:frd3DBarChartViewController];
     
     
     UIColor *color = [UIColor colorWithHue:0.3 + row/6.0 saturation:0.2 + val/max/1.25 brightness:1.0 alpha:1.0];
@@ -95,20 +95,22 @@ float gValsRevenue[] = {
     
 }
 
--(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController legendForValueLine:(int)line
+
+
+-(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController legendForValueLine:(int)line
 {
-    float max = [self frd3DBarChartViewControllerMaxValue:frd3DBarChardViewController];
+    float max = [self frd3DBarChartViewControllerMaxValue:frd3DBarChartViewController];
     float delta = max / 5.0;
     
     return [NSString stringWithFormat:@"$%0.1fB", (line + 1) * delta];
 }
 
--(int) frd3DBarChartViewControllerNumberHeightLines:(FRD3DBarChartViewController *)frd3DBarChardViewController
+-(int) frd3DBarChartViewControllerNumberHeightLines:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
     return 5;
 }
 
--(bool) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChardViewController hasBarForRow:(int)row column:(int)column
+-(bool) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController hasBarForRow:(int)row column:(int)column
 {
     if (row == 2 && column == 0) return false; // no revenue data for Google in 2001 from the financial web site I was using.
     return true;
