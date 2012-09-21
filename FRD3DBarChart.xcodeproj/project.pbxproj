@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE75C47F160CDB4F00BFC507 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BE75C47E160CDB4F00BFC507 /* Default-568h@2x.png */; };
 		BEEFA80E15CA070A00B839E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA80D15CA070A00B839E9 /* UIKit.framework */; };
 		BEEFA81015CA070A00B839E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA80F15CA070A00B839E9 /* Foundation.framework */; };
 		BEEFA81215CA070A00B839E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEEFA81115CA070A00B839E9 /* CoreGraphics.framework */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BE75C47E160CDB4F00BFC507 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		BEEFA80915CA070A00B839E9 /* FRD3DBarChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FRD3DBarChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEEFA80D15CA070A00B839E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BEEFA80F15CA070A00B839E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -86,6 +88,7 @@
 		BEEFA7FE15CA070A00B839E9 = {
 			isa = PBXGroup;
 			children = (
+				BE75C47E160CDB4F00BFC507 /* Default-568h@2x.png */,
 				BEEFA84415CA081100B839E9 /* OpenGLES.framework */,
 				BEEFA84215CA080B00B839E9 /* GLKit.framework */,
 				BEEFA84015CA07F500B839E9 /* QuartzCore.framework */,
@@ -224,6 +227,7 @@
 				BEEFA81815CA070A00B839E9 /* InfoPlist.strings in Resources */,
 				BEEFA83715CA07B700B839E9 /* MainStoryboard_iPhone.storyboard in Resources */,
 				BEEFA83815CA07B700B839E9 /* MainStoryboard_iPad.storyboard in Resources */,
+				BE75C47F160CDB4F00BFC507 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,10 +316,12 @@
 		BEEFA82215CA070A00B839E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FRD3DBarChart/FRD3DBarChart-Prefix.pch";
 				INFOPLIST_FILE = "FRD3DBarChart/FRD3DBarChart-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
