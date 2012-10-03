@@ -151,9 +151,7 @@
 @synthesize frd3dBarChartDelegate = _frd3dBarChartDelegate;
 
 
-//
-// to be called to trigger the chart height and color to change.
-//
+
 -(void) updateChartAnimated:(BOOL)animated animationDuration:(NSTimeInterval)duration options:(kUpdateChartOptions)options
 {
     // make legend images regenerate themselved in the next drawing cycle

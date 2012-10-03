@@ -9,5 +9,3 @@ Licensed under New BSD.
 See http://windal.net/blog/?p=153 for documentation.
 
 ![Screenshot](FRD3DBarChart/raw/master/screenshot2.png) 
-
-

@@ -108,11 +108,24 @@ enum
 } ;
 typedef NSUInteger kUpdateChartOptions;
 
+/** the main 3D bar chart controller class.
+ */
 @interface FRD3DBarChartViewController : GLKViewController
 
 @property (nonatomic, strong) id<FRD3DBarChartViewControllerDelegate> frd3dBarChartDelegate;
 @property (nonatomic) BOOL useCylinders;
 
+/**
+ * Trigger an update of the chart. Chart elements that are updated by default
+ * are the bar columns, the bar colors, the horizontal bars and the chart label textures...
+ * Use the option parameter to control wether the label texture should be regenerated or not.
+ * There is a performance hit in regenerating label texture, it is recommended to only generate them
+ * if the label text has changed...
+ *
+ * @param animated YES to animate the chart update.
+ * @param duration animation duration in second.
+ * @param options update options. Current options allow you to prevent label textures to be regenerated.
+ */
 -(void) updateChartAnimated:(BOOL) animated animationDuration:(NSTimeInterval)duration options:(kUpdateChartOptions)options;
 
 @end
