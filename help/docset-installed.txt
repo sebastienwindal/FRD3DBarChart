@@ -1,0 +1,4 @@
+Documentation set was installed to Xcode!
+
+Path: /Users/sebastien/Library/Developer/Shared/Documentation/DocSets/com.freerangedevelopers.FRD3DBarChart.docset
+Time: 2012-09-27 05:38:52 +0000

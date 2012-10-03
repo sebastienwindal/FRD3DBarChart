@@ -320,12 +320,11 @@
 		BEEFA82215CA070A00B839E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FRD3DBarChart/FRD3DBarChart-Prefix.pch";
 				INFOPLIST_FILE = "FRD3DBarChart/FRD3DBarChart-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -333,6 +332,7 @@
 		BEEFA82315CA070A00B839E9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FRD3DBarChart/FRD3DBarChart-Prefix.pch";
 				INFOPLIST_FILE = "FRD3DBarChart/FRD3DBarChart-Info.plist";
