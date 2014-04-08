@@ -183,7 +183,7 @@
             
             
             UIColor *color = [self colorForRow:i column:j];
-            float r,g,b,a;
+            CGFloat r,g,b,a;
             [color getRed:&r green:&g blue:&b alpha:&a];
             _targetColors[4*k+0] = r;
             _targetColors[4*k+1] = g;
