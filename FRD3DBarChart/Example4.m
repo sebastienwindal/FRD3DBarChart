@@ -37,9 +37,9 @@
 #import "Example4.h"
 
 float gValsRevenue[] = { 
-    25.3, 28.37, 32.19, 36.84, 39.79, 44.28, 51.12, 60.42, 58.44, 62.48, 69.94, 73.72, // MSFT
-    5.36, 4.74, 6.21, 8.28, 13.93, 19.32, 24.01, 32.48, 36.54, 65.22, 108.25, 148.81, // AAPL
-    0.0, 0.43951, 1.47, 3.19, 6.14, 10.6, 16.59, 21.8, 23.65, 29.32, 37.91, 43.16, // GOOG
+    25.3, 28.37, 32.19, 36.84, 39.79, 44.28, 51.12, 60.42, 58.44, 62.48, 69.94, 73.72, 77.85, // MSFT
+    5.36, 4.74, 6.21, 8.28, 13.93, 19.32, 24.01, 32.48, 36.54, 65.22, 108.25, 148.81, 180.91, // AAPL
+    0.0, 0.43951, 1.47, 3.19, 6.14, 10.6, 16.59, 21.8, 23.65, 29.32, 37.91, 43.16, 59.82 // GOOG
 };
 
 
@@ -53,12 +53,12 @@ float gValsRevenue[] = {
 
 -(int) frd3DBarChartViewControllerNumberColumns:(FRD3DBarChartViewController *)frd3DBarChartViewController
 {
-    return 12;
+    return 13;
 }
 
 -(float) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController valueForBarAtRow:(int)row column:(int)column
 {
-    return gValsRevenue[row * 12 + column];
+    return gValsRevenue[row * 13 + column];
 }
 
 -(float) frd3DBarChartViewControllerMaxValue:(FRD3DBarChartViewController *)frd3DBarChartViewController
@@ -95,14 +95,24 @@ float gValsRevenue[] = {
     
 }
 
-
-
 -(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController legendForValueLine:(int)line
 {
     float max = [self frd3DBarChartViewControllerMaxValue:frd3DBarChartViewController];
     float delta = max / 5.0;
     
     return [NSString stringWithFormat:@"$%0.1fB", (line + 1) * delta];
+}
+
+-(BOOL) frd3DBarChartViewControllerHasTopText:(FRD3DBarChartViewController *)frd3DBarChartViewController
+{
+    return YES;
+}
+
+-(NSString *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController
+                       topTextForBarAtRow:(int)row
+                                   column:(int) column
+{
+    return [NSString stringWithFormat:@"$%0.1fB", gValsRevenue[row * 13 + column]];
 }
 
 -(int) frd3DBarChartViewControllerNumberHeightLines:(FRD3DBarChartViewController *)frd3DBarChartViewController
@@ -115,4 +125,6 @@ float gValsRevenue[] = {
     if (row == 2 && column == 0) return false; // no revenue data for Google in 2001 from the financial web site I was using.
     return true;
 }
+
+
 @end

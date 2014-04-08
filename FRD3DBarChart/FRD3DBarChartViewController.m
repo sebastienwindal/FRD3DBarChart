@@ -433,7 +433,7 @@
                         color = [self.frd3dBarChartDelegate frd3DBarChartViewController:self colorForTopTextBarAtRow:i column:j];
                     }
                     if (color == nil) color = [UIColor whiteColor];
-                    
+  
                     if ([legendText length] > 0)
                     {
                         UIImage *image = [self topImageWithText:legendText
@@ -483,11 +483,12 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
         CFAttributedStringReplaceString (attrString, CFRangeMake(0, 0), (CFStringRef)string);
     
     CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), kCTForegroundColorAttributeName, color.CGColor);
+    
     CTFontRef theFont = CTFontCreateFromUIFont(font);
     CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), kCTFontAttributeName, theFont);
     CFRelease(theFont);
     
-    CTParagraphStyleSetting settings[] = {kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment};
+    CTParagraphStyleSetting settings[] = { kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment };
     CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings) / sizeof(settings[0]));
     CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), kCTParagraphStyleAttributeName, paragraphStyle);
     CFRelease(paragraphStyle);
@@ -506,17 +507,6 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
                         width:(float)width
                        height:(float)height
 {
-    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
-    
-    
-    CGContextRef _composedImageContext = CGBitmapContextCreate(NULL,
-                                                               width,
-                                                               height,
-                                                               8,
-                                                               width*4,
-                                                               rgbColorSpace,
-                                                               kCGBitmapByteOrderDefault|kCGImageAlphaPremultipliedFirst);
-    
     // draw your things into _composedImageContext
     char* txt	= (char *)[text cStringUsingEncoding:NSASCIIStringEncoding];
     if (txt == NULL) return nil;
@@ -531,7 +521,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
         CFAttributedStringRef attrString = (__bridge CFAttributedStringRef)([FRD3DBarChartViewController mutableAttributedStringWithString:text
                                                                                                                                font:[UIFont fontWithName:fontName
                                                                                                                                                     size:fontSize]
-                                                                                                                              color:[UIColor whiteColor]
+                                                                                                                              color:color
                                                                                                                           alignment:kCTTextAlignmentLeft]);
         CTLineRef line = CTLineCreateWithAttributedString(attrString);
 
@@ -548,28 +538,22 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
         fontSize--;
     }
     
-    
-    CGContextSelectFont(_composedImageContext, [fontName cStringUsingEncoding:NSASCIIStringEncoding], fontSize, kCGEncodingMacRoman);
-    CGContextSetTextDrawingMode(_composedImageContext, kCGTextFill);
-    CGContextSetFillColorWithColor(_composedImageContext, color.CGColor);
-    
-
-    
+    // draw our string into the image.
     float y = height/2.0 - expectedLabelSize.height/2.0 + (descent)/2.0;
     float x = width/2.0 - expectedLabelSize.width/2.0;
-    NSLog(@"%s", txt);
-    CGContextShowTextAtPoint(_composedImageContext, x, y, txt, strlen(txt));
+
+    UIImage *image2 = [[UIImage alloc] init];
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), YES, 1);
+    [image2 drawInRect:CGRectMake(x, y, expectedLabelSize.width, expectedLabelSize.height) blendMode:kCGBlendModeNormal alpha:1.0f];
+    [image2 drawAtPoint:CGPointMake(0.0f, 0.0f)];
+    [text drawAtPoint:CGPointMake(x,y)
+       withAttributes:@{NSFontAttributeName:[UIFont fontWithName:fontName size:fontSize],
+                        NSForegroundColorAttributeName: color}];
+
+    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
     
-    //finally turn the context into a CGImage
-    CGImageRef cgImage = CGBitmapContextCreateImage(_composedImageContext);
-    
-    CGContextRelease(_composedImageContext);
-    
-    UIImage *image = [UIImage imageWithCGImage:cgImage];
-    CGImageRelease(cgImage);
-    CGColorSpaceRelease(rgbColorSpace);
-    
-    return image;
+    return result;
 }
 
 
@@ -581,53 +565,32 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
                     height:(float)height 
                 rightAlign:(BOOL) rightAlign
 {
-    CGColorSpaceRef rgbColorSpace = CGColorSpaceCreateDeviceRGB();
 
+	CGRect textRect = [text boundingRectWithSize:CGSizeMake(width, height)
+                                         options:NSStringDrawingUsesLineFragmentOrigin
+                                      attributes:@{NSFontAttributeName:[UIFont fontWithName:fontName size:60.0]}
+                                         context:nil];
     
-    CGContextRef _composedImageContext = CGBitmapContextCreate(NULL, 
-                                                               width, 
-                                                               height, 
-                                                               8, 
-                                                               width*4, 
-                                                               rgbColorSpace, 
-                                                               kCGBitmapByteOrderDefault|kCGImageAlphaPremultipliedFirst);
+    CGSize expectedLabelSize = textRect.size;
     
-    // draw your things into _composedImageContext
-    char* txt	= (char *)[text cStringUsingEncoding:NSASCIIStringEncoding];
+    float offsetX = rightAlign ? (width - expectedLabelSize.width) : 0.0f;
+    UIImage *image2 = [[UIImage alloc] init];
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), YES, 1);
+    [image2 drawInRect:CGRectMake(offsetX,
+                                  expectedLabelSize.height / 2.0,
+                                  expectedLabelSize.width,
+                                  expectedLabelSize.height)
+             blendMode:kCGBlendModeNormal
+                 alpha:1.0f];
+    [image2 drawAtPoint:CGPointMake(offsetX, 0.0f)];
+    [text drawAtPoint:CGPointMake(offsetX,0.0f)
+       withAttributes:@{NSFontAttributeName:[UIFont fontWithName:fontName size:60.0],
+                        NSForegroundColorAttributeName: color}];
+    
+    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
 
-    CGContextSelectFont(_composedImageContext, [fontName cStringUsingEncoding:NSASCIIStringEncoding], 60.0, kCGEncodingMacRoman);
-    CGContextSetTextDrawingMode(_composedImageContext, kCGTextFill);
-    CGContextSetFillColorWithColor(_composedImageContext, color.CGColor);
-    
-    //rotate text
-    //CGContextSetTextMatrix(_composedImageContext, CGAffineTransformMakeRotation(0.0));
-	
-    CGSize expectedLabelSize = [text sizeWithFont:[UIFont fontWithName:fontName size:60.0] constrainedToSize:CGSizeMake(width, height)];
-    
-    if (rightAlign)
-    {       
-        float offsetX = width - expectedLabelSize.width;
-        if (offsetX < 0 || offsetX >= width) 
-        {
-            offsetX = 0.0; // string is bigger than our allocated space.
-        }
-        CGContextShowTextAtPoint(_composedImageContext, offsetX , expectedLabelSize.height / 2.0 , txt, strlen(txt));
-    }
-    else 
-    {
-        CGContextShowTextAtPoint(_composedImageContext, 0, expectedLabelSize.height / 2.0, txt, strlen(txt));
-    }
-    
-    //finally turn the context into a CGImage
-    CGImageRef cgImage = CGBitmapContextCreateImage(_composedImageContext);
-    
-    CGContextRelease(_composedImageContext);
-    
-    UIImage *image = [UIImage imageWithCGImage:cgImage];
-    CGImageRelease(cgImage);
-    CGColorSpaceRelease(rgbColorSpace);
-    
-    return image;
+    return result;
 }
 
 

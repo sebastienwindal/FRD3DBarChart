@@ -80,7 +80,7 @@
     float d = sqrtf(x*x + y*y);
     float maxDistance = sqrt(HALF_SIZE*HALF_SIZE+HALF_SIZE*HALF_SIZE);
     
-    double v;
+    double v = 0;
     if (self.equationType == EquationTypeMexicanHatWavelet)
         v = 0.75 * (1.0 + cosf(d*0.7) / 2.0) / exp((d-2)/20.0);
     else if (self.equationType == EquationTypePyramid)
