@@ -1,10 +1,68 @@
+# Adapted from https://github.com/github/gitignore/blob/master/Objective-C.gitignore
 
-FRD3DBarChart.xcodeproj/project.xcworkspace/xcuserdata/sebastien.xcuserdatad/UserInterfaceState.xcuserstate
+# Finder
+.DS_Store
 
-*.xcbkptlist
+# Xcode
+## Build generated
+build/
+DerivedData/
 
-FRD3DBarChart.xcodeproj/xcuserdata/sebastien.xcuserdatad/xcdebugger/Breakpoints.xcbkptlist
-FRD3DBarChart.xcodeproj/project.xcworkspace/xcshareddata/FRD3DBarChart.xccheckout
-FRD3DBarChart.xcodeproj/project.xcworkspace/xcuserdata/sebastienwindal.xcuserdatad/UserInterfaceState.xcuserstate
-FRD3DBarChart.xcodeproj/project.xcworkspace/xcuserdata/sebastienwindal.xcuserdatad/WorkspaceSettings.xcsettings
-FRD3DBarChart.xcodeproj/xcuserdata/sebastienwindal.xcuserdatad/xcschemes/xcschememanagement.plist
+## Various settings
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+
+## Other
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+## Obj-C/Swift specific
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# CocoaPods
+#
+# We recommend against adding the Pods directory to your .gitignore. However
+# you should judge for yourself, the pros and cons are mentioned at:
+# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
+
+Pods/
+
+# Add this line if you want to avoid checking in source code from the Xcode workspace
+# *.xcworkspace
+
+# Carthage
+#
+# Add this line if you want to avoid checking in source code from Carthage dependencies.
+# Carthage/Checkouts
+
+Carthage/Build
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/#source-control
+
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Code Injection
+#
+# After new code Injection tools there's a generated folder /iOSInjectionProject
+# https://github.com/johnno1962/injectionforxcode
+
+iOSInjectionProject/
