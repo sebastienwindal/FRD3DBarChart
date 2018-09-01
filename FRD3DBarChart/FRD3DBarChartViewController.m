@@ -41,6 +41,7 @@
 #import <CoreText/CoreText.h>
 #import "FRD3DBarChartViewController+Easing.h"
 #import "Shapes.h"
+#import <OpenGLES/ES2/glext.h>
 
 #if __has_feature(objc_arc)
 #else
