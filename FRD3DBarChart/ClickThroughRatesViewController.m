@@ -52,14 +52,6 @@
     [self addChildViewController:self.frd3DBarCharVC];
 }
 
-- (void)viewDidUnload
-{
-    [self setChartView:nil];
-    [self setContentView:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;

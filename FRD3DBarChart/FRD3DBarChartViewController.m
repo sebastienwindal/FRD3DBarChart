@@ -954,30 +954,6 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     [self updateChartAnimated:NO animationDuration:0.0 options:0];
 }
 
-- (void)viewDidUnload
-{    
-    [super viewDidUnload];
-    
-    [self tearDownGL];
-    
-    if ([EAGLContext currentContext] == self.context) {
-        [EAGLContext setCurrentContext:nil];
-    }
-	self.context = nil;
-    
-    free(_targetBarHeights); _targetBarHeights = NULL;
-    free(_currentBarHeights); _currentBarHeights = NULL;
-    free(_barHeightAnimationDeltas); _barHeightAnimationDeltas = NULL;
-    free(_targetColors); _targetColors = NULL;
-    free(_currentColors); _currentColors = NULL;
-    free(_colorDeltas); _colorDeltas = NULL;
-    if (cylinderBuffer) 
-    {
-        free(cylinderBuffer);
-        cylinderBuffer = NULL;
-    }
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -1798,6 +1774,10 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 
 -(void) dealloc
 {
+    [self tearDownGL];
+    if ([EAGLContext currentContext] == _context) {
+        [EAGLContext setCurrentContext:nil];
+    }
     if (_targetBarHeights) free(_targetBarHeights);
     if (_currentBarHeights) free(_currentBarHeights);
     if (_barHeightAnimationDeltas) free(_barHeightAnimationDeltas);

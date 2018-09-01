@@ -80,13 +80,6 @@
     [self.frd3DBarCharVC updateChartAnimated:NO animationDuration:0.0 options:0];
 }
 
-- (void)viewDidUnload
-{
-    [self setContentView:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
