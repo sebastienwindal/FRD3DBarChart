@@ -954,11 +954,6 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     [self updateChartAnimated:NO animationDuration:0.0 options:0];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
