@@ -398,11 +398,6 @@
 {
     if (_topLabelTextures == nil)
     {
-        int maxDim = MAX([self numberColumns], [self numberRows]);
-        
-        float textureSize = 1500/maxDim;
-        textureSize = MAX(textureSize, 40);
-        
         _topLabelTextures = [[NSMutableDictionary alloc] init];
         
         NSString *fontName;
@@ -494,8 +489,12 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), kCTParagraphStyleAttributeName, paragraphStyle);
     CFRelease(paragraphStyle);
     
-    
+    // ARC sees assignment to ret increment ret's refcnt .
     NSMutableAttributedString *ret = (__bridge NSMutableAttributedString *)attrString;
+    // The other increment to attrString's (aka ret's) refcnt occurring under
+    // manual CF management when attrString was created should be decremented
+    // via CFRelease before returning.
+    CFRelease(attrString);
     
     return ret;
 }
@@ -513,7 +512,8 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     if (txt == NULL) return nil;
     
     float fontSize = 60;
-    CGSize expectedLabelSize;
+    // Default value correct for txt = "$25.3B" in Helvetica 60.
+    CGSize expectedLabelSize = CGSizeMake(190.166015625, 60);;
     CGFloat ascent = 0;
     CGFloat descent = 0;
     CGFloat leading = 0;
@@ -528,8 +528,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 
         CGFloat textWidth = CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
         CGFloat textHeight = ascent+descent;
-    
-        CFRelease(attrString);
+
         CFRelease(line);
         
         expectedLabelSize = CGSizeMake(textWidth, textHeight);
