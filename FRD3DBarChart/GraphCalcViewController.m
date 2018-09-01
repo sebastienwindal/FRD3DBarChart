@@ -80,12 +80,6 @@
     [self.frd3DBarCharVC updateChartAnimated:NO animationDuration:0.0 options:0];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
-
-
 -(void) viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];

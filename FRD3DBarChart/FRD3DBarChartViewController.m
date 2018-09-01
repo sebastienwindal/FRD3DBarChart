@@ -954,15 +954,6 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     [self updateChartAnimated:NO animationDuration:0.0 options:0];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
-}
-
 #pragma mark - openGL setup routines
 
 - (void)setupVBOs 

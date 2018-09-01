@@ -52,11 +52,6 @@
     [self addChildViewController:self.frd3DBarCharVC];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
-
 - (IBAction)facebookAction:(id)sender {
     [self.example setDataSet:kExample2DataSetFacebook];
     [self.frd3DBarCharVC updateChartAnimated:YES animationDuration:1.0 options:kUpdateChartOptionsDoNotUpdateLegends];
