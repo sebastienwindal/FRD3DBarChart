@@ -101,15 +101,15 @@
     float *_currentColors;
     float *_colorDeltas;
     
-    // when animating bar heights (or color) the date at which the animation should complete.
-    // Used with _barHeightsAnimationStartDate by the easing function to compute intermediary
+    // when animating bar heights (or color) the time at which the animation should complete.
+    // Used with _barHeightsAnimationStartTime by the easing function to compute intermediary
     // values between start and target values for bar heights and color.
-    NSDate *_barHeightAnimationCompletionDate;
-    NSDate *_barHeightsAnimationStartDate; // bar animation start date.
+    CFAbsoluteTime _barHeightAnimationCompletionTime;
+    CFAbsoluteTime _barHeightsAnimationStartTime; // bar animation start time.
     
     // same as above to compute intermediary values when animating position (offsetX, offsetY and radiusScale).
-    NSDate *_positionAnimationCompletionDate;
-    NSDate *_positionAnimationStartDate;
+    CFAbsoluteTime _positionAnimationCompletionTime;
+    CFAbsoluteTime _positionAnimationStartTime;
     
     // flags to indicate if we are animating bar heights or position/zoom.
     BOOL _isAnimatingBarHeights;
@@ -205,12 +205,12 @@
             _currentBarHeights[k] = _targetBarHeights[k];
             _barHeightAnimationDeltas[k] = 0.0f;
         }
-        _barHeightAnimationCompletionDate = [NSDate date];
+        _barHeightAnimationCompletionTime = CFAbsoluteTimeGetCurrent();
     }
     else
     {
-        _barHeightsAnimationStartDate = [NSDate date];
-        _barHeightAnimationCompletionDate = [NSDate dateWithTimeIntervalSinceNow:duration];
+        _barHeightsAnimationStartTime = CFAbsoluteTimeGetCurrent();
+        _barHeightAnimationCompletionTime = _barHeightsAnimationStartTime+duration;
         _isAnimatingBarHeights = YES;
     }
 }
@@ -632,8 +632,8 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     _offsetXAnimationDelta = toOffsetX - _offsetX;
     _targetRadiusScale = toRadiusScale;
     _radiusScaleAnimationDelta = toRadiusScale - _radiusScale;
-    _positionAnimationStartDate = [NSDate date];
-    _positionAnimationCompletionDate = [_positionAnimationStartDate dateByAddingTimeInterval:timeInterval];
+    _positionAnimationStartTime = CFAbsoluteTimeGetCurrent();
+    _positionAnimationCompletionTime = _positionAnimationStartTime+timeInterval;
     
     _isAnimatingPosition = YES;
 }
@@ -1191,10 +1191,10 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     // the repositioning animation (double tap)
     if (_isAnimatingPosition)
     {
-        NSTimeInterval timeRemainingToPositionAnimationCompletion = [_positionAnimationCompletionDate timeIntervalSinceNow];
+        NSTimeInterval timeRemainingToPositionAnimationCompletion = _positionAnimationCompletionTime-CFAbsoluteTimeGetCurrent();
         
-        NSTimeInterval currentTime = [[NSDate date] timeIntervalSinceDate:_positionAnimationStartDate];
-        NSTimeInterval animationDuration = [_positionAnimationCompletionDate timeIntervalSinceDate:_positionAnimationStartDate];
+        NSTimeInterval currentTime = CFAbsoluteTimeGetCurrent()-_positionAnimationStartTime;
+        NSTimeInterval animationDuration = _positionAnimationCompletionTime-_positionAnimationStartTime;
         
         BOOL animationCompleted = YES;
         if (timeRemainingToPositionAnimationCompletion <= 0)
@@ -1217,12 +1217,12 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     
     if (_isAnimatingBarHeights)
     {
-        NSTimeInterval timeRemainingToHeightAnimationCompletion = [_barHeightAnimationCompletionDate timeIntervalSinceNow];
+        NSTimeInterval timeRemainingToHeightAnimationCompletion = _barHeightAnimationCompletionTime-CFAbsoluteTimeGetCurrent();
         
         BOOL animationCompleted = YES;
 
-        NSTimeInterval currentTime = [[NSDate date] timeIntervalSinceDate:_barHeightsAnimationStartDate];
-        NSTimeInterval animationDuration = [_barHeightAnimationCompletionDate timeIntervalSinceDate:_barHeightsAnimationStartDate];
+        NSTimeInterval currentTime = CFAbsoluteTimeGetCurrent()-_barHeightsAnimationStartTime;
+        NSTimeInterval animationDuration = _barHeightAnimationCompletionTime-_barHeightsAnimationStartTime;
 
                 
         // the bar height animation and color
