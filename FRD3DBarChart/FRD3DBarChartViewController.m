@@ -662,7 +662,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     float deltaX = 0.0;
     float deltaY = 0.0;
     
-    if (abs(diff.y) > abs(diff.x))
+    if (fabs(diff.y) > fabs(diff.x))
     {
         deltaY = [sender velocityInView:self.view].y / 10000.0;
     }
@@ -1167,7 +1167,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 
 - (void)update
 {
-    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
+    float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     
     self.effect.transform.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(45.0f), aspect, 1.0f, 10.0f);
     
