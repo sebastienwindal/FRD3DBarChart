@@ -43,6 +43,12 @@
 
 @synthesize equationType = _equationType;
 
+// KBR: We added this.
+-(id) init
+{
+    self = [super init];
+    return self;
+}
 
 #pragma mark FRD3DBarChartViewControllerDelegate implementation
 

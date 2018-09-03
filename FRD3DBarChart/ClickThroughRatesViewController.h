@@ -8,13 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
+#import "FRD3DBarChartViewController.h"
 
-
-@interface ClickThroughRatesViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet UIView *contentView;
-@property (weak, nonatomic) IBOutlet GLKView *chartView;
-
+@interface ClickThroughRatesViewController : FRD3DBarChartViewController
 - (IBAction)facebookAction:(id)sender;
 - (IBAction)twitterAction:(id)sender;
 @end

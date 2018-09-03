@@ -41,11 +41,7 @@
 #import <CoreText/CoreText.h>
 #import "FRD3DBarChartViewController+Easing.h"
 #import "Shapes.h"
-
-#if __has_feature(objc_arc)
-#else
-#error You must enable ARC to use this control. Come on! It is 2012, time has come!
-#endif
+#import <OpenGLES/ES2/glext.h>
 
 @interface FRD3DBarChartViewController () {
 
@@ -100,15 +96,15 @@
     float *_currentColors;
     float *_colorDeltas;
     
-    // when animating bar heights (or color) the date at which the animation should complete.
-    // Used with _barHeightsAnimationStartDate by the easing function to compute intermediary
+    // when animating bar heights (or color) the time at which the animation should complete.
+    // Used with _barHeightsAnimationStartTime by the easing function to compute intermediary
     // values between start and target values for bar heights and color.
-    NSDate *_barHeightAnimationCompletionDate;
-    NSDate *_barHeightsAnimationStartDate; // bar animation start date.
+    CFAbsoluteTime _barHeightAnimationCompletionTime;
+    CFAbsoluteTime _barHeightsAnimationStartTime; // bar animation start time.
     
     // same as above to compute intermediary values when animating position (offsetX, offsetY and radiusScale).
-    NSDate *_positionAnimationCompletionDate;
-    NSDate *_positionAnimationStartDate;
+    CFAbsoluteTime _positionAnimationCompletionTime;
+    CFAbsoluteTime _positionAnimationStartTime;
     
     // flags to indicate if we are animating bar heights or position/zoom.
     BOOL _isAnimatingBarHeights;
@@ -204,12 +200,12 @@
             _currentBarHeights[k] = _targetBarHeights[k];
             _barHeightAnimationDeltas[k] = 0.0f;
         }
-        _barHeightAnimationCompletionDate = [NSDate date];
+        _barHeightAnimationCompletionTime = CFAbsoluteTimeGetCurrent();
     }
     else
     {
-        _barHeightsAnimationStartDate = [NSDate date];
-        _barHeightAnimationCompletionDate = [NSDate dateWithTimeIntervalSinceNow:duration];
+        _barHeightsAnimationStartTime = CFAbsoluteTimeGetCurrent();
+        _barHeightAnimationCompletionTime = _barHeightsAnimationStartTime+duration;
         _isAnimatingBarHeights = YES;
     }
 }
@@ -397,11 +393,6 @@
 {
     if (_topLabelTextures == nil)
     {
-        int maxDim = MAX([self numberColumns], [self numberRows]);
-        
-        float textureSize = 1500/maxDim;
-        textureSize = MAX(textureSize, 40);
-        
         _topLabelTextures = [[NSMutableDictionary alloc] init];
         
         NSString *fontName;
@@ -493,8 +484,12 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFAttributedStringGetLength(attrString)), kCTParagraphStyleAttributeName, paragraphStyle);
     CFRelease(paragraphStyle);
     
-    
+    // ARC sees assignment to ret increment ret's refcnt .
     NSMutableAttributedString *ret = (__bridge NSMutableAttributedString *)attrString;
+    // The other increment to attrString's (aka ret's) refcnt occurring under
+    // manual CF management when attrString was created should be decremented
+    // via CFRelease before returning.
+    CFRelease(attrString);
     
     return ret;
 }
@@ -512,7 +507,8 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     if (txt == NULL) return nil;
     
     float fontSize = 60;
-    CGSize expectedLabelSize;
+    // Default value correct for txt = "$25.3B" in Helvetica 60.
+    CGSize expectedLabelSize = CGSizeMake(190.166015625, 60);;
     CGFloat ascent = 0;
     CGFloat descent = 0;
     CGFloat leading = 0;
@@ -527,8 +523,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 
         CGFloat textWidth = CTLineGetTypographicBounds(line, &ascent, &descent, &leading);
         CGFloat textHeight = ascent+descent;
-    
-        CFRelease(attrString);
+
         CFRelease(line);
         
         expectedLabelSize = CGSizeMake(textWidth, textHeight);
@@ -632,8 +627,8 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     _offsetXAnimationDelta = toOffsetX - _offsetX;
     _targetRadiusScale = toRadiusScale;
     _radiusScaleAnimationDelta = toRadiusScale - _radiusScale;
-    _positionAnimationStartDate = [NSDate date];
-    _positionAnimationCompletionDate = [_positionAnimationStartDate dateByAddingTimeInterval:timeInterval];
+    _positionAnimationStartTime = CFAbsoluteTimeGetCurrent();
+    _positionAnimationCompletionTime = _positionAnimationStartTime+timeInterval;
     
     _isAnimatingPosition = YES;
 }
@@ -661,7 +656,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     float deltaX = 0.0;
     float deltaY = 0.0;
     
-    if (abs(diff.y) > abs(diff.x))
+    if (fabs(diff.y) > fabs(diff.x))
     {
         deltaY = [sender velocityInView:self.view].y / 10000.0;
     }
@@ -954,44 +949,6 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     [self updateChartAnimated:NO animationDuration:0.0 options:0];
 }
 
-- (void)viewDidUnload
-{    
-    [super viewDidUnload];
-    
-    [self tearDownGL];
-    
-    if ([EAGLContext currentContext] == self.context) {
-        [EAGLContext setCurrentContext:nil];
-    }
-	self.context = nil;
-    
-    free(_targetBarHeights); _targetBarHeights = NULL;
-    free(_currentBarHeights); _currentBarHeights = NULL;
-    free(_barHeightAnimationDeltas); _barHeightAnimationDeltas = NULL;
-    free(_targetColors); _targetColors = NULL;
-    free(_currentColors); _currentColors = NULL;
-    free(_colorDeltas); _colorDeltas = NULL;
-    if (cylinderBuffer) 
-    {
-        free(cylinderBuffer);
-        cylinderBuffer = NULL;
-    }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-    } else {
-        return YES;
-    }
-}
-
 #pragma mark - openGL setup routines
 
 - (void)setupVBOs 
@@ -1166,9 +1123,9 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 
 - (void)update
 {
-    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
+    float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     
-    self.effect.transform.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(45.0f), aspect, 1.0f, 10.0f);
+    self.effect.transform.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(55.0f), aspect, 1.0f, 10.0f);
     
     GLKVector3 rotation = GLKVector3Make(0.0,0.0,0.0);
     GLKVector3 position = GLKVector3Make(0.0, 0.0, -0.0);
@@ -1191,10 +1148,10 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     // the repositioning animation (double tap)
     if (_isAnimatingPosition)
     {
-        NSTimeInterval timeRemainingToPositionAnimationCompletion = [_positionAnimationCompletionDate timeIntervalSinceNow];
+        NSTimeInterval timeRemainingToPositionAnimationCompletion = _positionAnimationCompletionTime-CFAbsoluteTimeGetCurrent();
         
-        NSTimeInterval currentTime = [[NSDate date] timeIntervalSinceDate:_positionAnimationStartDate];
-        NSTimeInterval animationDuration = [_positionAnimationCompletionDate timeIntervalSinceDate:_positionAnimationStartDate];
+        NSTimeInterval currentTime = CFAbsoluteTimeGetCurrent()-_positionAnimationStartTime;
+        NSTimeInterval animationDuration = _positionAnimationCompletionTime-_positionAnimationStartTime;
         
         BOOL animationCompleted = YES;
         if (timeRemainingToPositionAnimationCompletion <= 0)
@@ -1217,12 +1174,12 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     
     if (_isAnimatingBarHeights)
     {
-        NSTimeInterval timeRemainingToHeightAnimationCompletion = [_barHeightAnimationCompletionDate timeIntervalSinceNow];
+        NSTimeInterval timeRemainingToHeightAnimationCompletion = _barHeightAnimationCompletionTime-CFAbsoluteTimeGetCurrent();
         
         BOOL animationCompleted = YES;
 
-        NSTimeInterval currentTime = [[NSDate date] timeIntervalSinceDate:_barHeightsAnimationStartDate];
-        NSTimeInterval animationDuration = [_barHeightAnimationCompletionDate timeIntervalSinceDate:_barHeightsAnimationStartDate];
+        NSTimeInterval currentTime = CFAbsoluteTimeGetCurrent()-_barHeightsAnimationStartTime;
+        NSTimeInterval animationDuration = _barHeightAnimationCompletionTime-_barHeightsAnimationStartTime;
 
                 
         // the bar height animation and color
@@ -1798,6 +1755,10 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 
 -(void) dealloc
 {
+    [self tearDownGL];
+    if ([EAGLContext currentContext] == _context) {
+        [EAGLContext setCurrentContext:nil];
+    }
     if (_targetBarHeights) free(_targetBarHeights);
     if (_currentBarHeights) free(_currentBarHeights);
     if (_barHeightAnimationDeltas) free(_barHeightAnimationDeltas);
