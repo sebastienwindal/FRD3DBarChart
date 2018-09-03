@@ -22,7 +22,6 @@
 		E1FFBCBC213A3B2300267FAA /* Example2.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FFBCAF213A3B2300267FAA /* Example2.m */; };
 		E1FFBCBD213A3B2300267FAA /* Example4.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FFBCB3213A3B2300267FAA /* Example4.m */; };
 		E1FFBCBE213A3B2300267FAA /* FRD3DBarChartViewController+Easing.m in Sources */ = {isa = PBXBuildFile; fileRef = E1FFBCB7213A3B2300267FAA /* FRD3DBarChartViewController+Easing.m */; };
-		E1FFBCC2213A3C1300267FAA /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E1FFBCC1213A3C1300267FAA /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,7 +54,6 @@
 		E1FFBCB5213A3B2300267FAA /* FRD3DBarChartViewController+Easing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FRD3DBarChartViewController+Easing.h"; sourceTree = "<group>"; };
 		E1FFBCB6213A3B2300267FAA /* ClickThroughRatesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClickThroughRatesViewController.h; sourceTree = "<group>"; };
 		E1FFBCB7213A3B2300267FAA /* FRD3DBarChartViewController+Easing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FRD3DBarChartViewController+Easing.m"; sourceTree = "<group>"; };
-		E1FFBCC1213A3C1300267FAA /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,7 +70,6 @@
 		E1752FB7213A3056000DFE19 = {
 			isa = PBXGroup;
 			children = (
-				E1FFBCC1213A3C1300267FAA /* Default-568h@2x.png */,
 				E1752FC2213A3056000DFE19 /* FRD3DBarChart */,
 				E1752FC1213A3056000DFE19 /* Products */,
 			);
@@ -195,7 +192,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E1752FD3213A3057000DFE19 /* LaunchScreen.storyboard in Resources */,
-				E1FFBCC2213A3C1300267FAA /* Default-568h@2x.png in Resources */,
 				E1752FD0213A3057000DFE19 /* Assets.xcassets in Resources */,
 				E1752FCE213A3057000DFE19 /* Main.storyboard in Resources */,
 			);
