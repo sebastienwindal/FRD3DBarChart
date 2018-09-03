@@ -158,15 +158,10 @@ float gValsFacebook[7*24] = {
 
 -(UIColor *) frd3DBarChartViewController:(FRD3DBarChartViewController *)frd3DBarChartViewController colorForBarAtRow:(int)row column:(int)column
 {
-    
     float val = gvals[row * 24 + column];
-    //float b = 0.5 + (1-(val * val)/256.0/256) / 2.0;
-    float b2 = 1.1 * (1-(val * val)/256.0/256) ;
-    //return [UIColor colorWithHue:1.0 saturation:1.0 brightness:b alpha:1.0];
-    float darkb2 = 10*b2;
-    if (darkb2 < 0.8) darkb2 = 0.8;
-    return [UIColor colorWithRed:darkb2 green:b2 blue:b2 alpha:1.0];
-    
+    float b2 = (1-(val * val)/256.0/256) ;
+    if (b2 > 0.5) b2 = 0.5;
+    return [UIColor colorWithRed:1.0 green:b2 blue:b2 alpha:1.0];
 }
 
 -(NSString *) frd3DBarChartViewControllerColumnLegendFontName:(FRD3DBarChartViewController *)frd3DBarChartViewController

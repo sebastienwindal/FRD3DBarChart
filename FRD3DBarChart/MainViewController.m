@@ -33,13 +33,11 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-
 #import "MainViewController.h"
 #import "Example4.h"
 #import "Example3.h"
 
 @interface MainViewController ()
-
 @property (nonatomic, strong) Example3 *example3;
 @end
 
@@ -56,11 +54,18 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Remove lines after last cell.
+    self.tableView.tableFooterView=[UIView new];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    self.clearsSelectionOnViewWillAppear = self.splitViewController.isCollapsed;
+    [super viewWillAppear:animated];
+}
+
+#pragma mark - Segues
 
 -(void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -68,14 +73,28 @@
     {
         self.example3 = [[Example3 alloc] init];
         [self.example3 regenerateValues];
-        [segue.destinationViewController setFrd3dBarChartDelegate:self.example3];
+        FRD3DBarChartViewController* barChartViewController = segue.destinationViewController.childViewControllers[0];
+        [barChartViewController setFrd3dBarChartDelegate:self.example3];
 
     }
     else if ([segue.identifier isEqualToString:@"Big3RevenueSegue"])
     {
         Example4 *example = [[Example4 alloc] init];
-        [segue.destinationViewController setFrd3dBarChartDelegate:example];
-        [segue.destinationViewController setUseCylinders:YES];
+        FRD3DBarChartViewController* barChartViewController = segue.destinationViewController.childViewControllers[0];
+        [barChartViewController setFrd3dBarChartDelegate:example];
+        [barChartViewController setUseCylinders:YES];
     }
 }
+
+
+#pragma mark - Table View
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 4;
+}
+
 @end

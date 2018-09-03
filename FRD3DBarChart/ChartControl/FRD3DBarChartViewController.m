@@ -43,11 +43,6 @@
 #import "Shapes.h"
 #import <OpenGLES/ES2/glext.h>
 
-#if __has_feature(objc_arc)
-#else
-#error You must enable ARC to use this control. Come on! It is 2012, time has come!
-#endif
-
 @interface FRD3DBarChartViewController () {
 
     
@@ -1130,7 +1125,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 {
     float aspect = fabs(self.view.bounds.size.width / self.view.bounds.size.height);
     
-    self.effect.transform.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(45.0f), aspect, 1.0f, 10.0f);
+    self.effect.transform.projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(55.0f), aspect, 1.0f, 10.0f);
     
     GLKVector3 rotation = GLKVector3Make(0.0,0.0,0.0);
     GLKVector3 position = GLKVector3Make(0.0, 0.0, -0.0);
